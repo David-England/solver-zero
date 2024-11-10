@@ -10,7 +10,7 @@ import (
 
 func main() {
 	fmt.Println("Hello universe.")
-	fmt.Println(importSudoku("C:\\Users\\david\\downloads\\test_doc.txt").Grid)
+	fmt.Println(importSudoku(os.Args[1]).Grid)
 }
 
 func importSudoku(filepath string) lib.Sudoku {
