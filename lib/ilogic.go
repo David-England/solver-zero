@@ -1,12 +1,13 @@
 package lib
 
 type ILogic interface {
-	RunStep(*Sudoku) bool
+	SetSudoku(*Sudoku)
+	RunStep() bool
 }
 
-func RunStep(logics []ILogic, inputSudoku *Sudoku) bool {
+func RunStep(logics []ILogic) bool {
 	for _, logic := range logics {
-		isChanged := logic.RunStep(inputSudoku)
+		isChanged := logic.RunStep()
 
 		if isChanged {
 			return true
