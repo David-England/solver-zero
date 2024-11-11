@@ -4,13 +4,22 @@ import (
 	"fmt"
 	"os"
 	"solver-zero/lib"
+	"solver-zero/lib/logics"
 	"strconv"
 	"strings"
 )
 
 func main() {
-	fmt.Println("Hello universe.")
-	fmt.Println(importSudoku(os.Args[1]).Grid)
+	sud := importSudoku(os.Args[1])
+
+	var logics []lib.ILogic = []lib.ILogic{
+		logics.EliminateNumbersLogic{},
+	}
+	lib.SetSudoku(&sud, logics)
+
+	fmt.Println(sud.Grid)
+	lib.RunStep(logics)
+	fmt.Println(sud.Grid)
 }
 
 func importSudoku(filepath string) lib.Sudoku {
