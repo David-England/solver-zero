@@ -31,5 +31,5 @@ func parseCSV(csv string) (suduko lib.Sudoku) {
 		}
 	}
 
-	return suduko
+	return
 }
