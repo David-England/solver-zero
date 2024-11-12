@@ -59,20 +59,20 @@ func setResolvedCells(cantBe *[9][9][9]bool, sudoku *lib.Sudoku) (isSuccessful b
 
 func banRowForNumber(cantBe *[9][9][9]bool, row int, num int) {
 	for col := 0; col < 9; col++ {
-		cantBe[row][col][num] = true
+		cantBe[row][col][num-1] = true
 	}
 }
 
 func banColumnForNumber(cantBe *[9][9][9]bool, col int, num int) {
 	for row := 0; row < 9; row++ {
-		cantBe[row][col][num] = true
+		cantBe[row][col][num-1] = true
 	}
 }
 
 func banSubgridForNumber(cantBe *[9][9][9]bool, subgridRow int, subgridColumn int, num int) {
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
-			cantBe[3*subgridRow+i][3*subgridColumn+j][num] = true
+			cantBe[3*subgridRow+i][3*subgridColumn+j][num-1] = true
 		}
 	}
 }
