@@ -6,11 +6,11 @@ type EliminateNumbersLogic struct {
 	sudoku *lib.Sudoku
 }
 
-func (logic EliminateNumbersLogic) SetSudoku(sudoku *lib.Sudoku) {
+func (logic *EliminateNumbersLogic) SetSudoku(sudoku *lib.Sudoku) {
 	logic.sudoku = sudoku
 }
 
-func (logic EliminateNumbersLogic) RunStep() bool {
+func (logic *EliminateNumbersLogic) RunStep() bool {
 	cantBe := [9][9][9]bool{}
 	isChanged := false
 

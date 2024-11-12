@@ -13,7 +13,7 @@ func main() {
 	sud := importSudoku(os.Args[1])
 
 	var logics []lib.ILogic = []lib.ILogic{
-		logics.EliminateNumbersLogic{},
+		&logics.EliminateNumbersLogic{},
 	}
 	lib.SetSudoku(&sud, logics)
 
