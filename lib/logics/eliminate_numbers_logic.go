@@ -3,19 +3,15 @@ package logics
 import "solver-zero/lib"
 
 type EliminateNumbersLogic struct {
-	sudoku *lib.Sudoku
-}
-
-func (logic *EliminateNumbersLogic) SetSudoku(sudoku *lib.Sudoku) {
-	logic.sudoku = sudoku
+	Sudoku *lib.Sudoku
 }
 
 func (logic *EliminateNumbersLogic) RunStep() bool {
 	cantBe := [9][9][9]bool{}
 	isChanged := false
 
-	eliminateOptions(&cantBe, logic.sudoku)
-	isChanged = setResolvedCells(&cantBe, logic.sudoku)
+	eliminateOptions(&cantBe, logic.Sudoku)
+	isChanged = setResolvedCells(&cantBe, logic.Sudoku)
 
 	return isChanged
 }

@@ -13,9 +13,8 @@ func main() {
 	sud := importSudoku(os.Args[1])
 
 	var logics []lib.ILogic = []lib.ILogic{
-		&logics.EliminateNumbersLogic{},
+		&logics.EliminateNumbersLogic{Sudoku: &sud},
 	}
-	lib.SetSudoku(&sud, logics)
 
 	fmt.Println(sud.Grid)
 	for isChanged := true; isChanged; {

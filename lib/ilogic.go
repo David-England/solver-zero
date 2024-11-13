@@ -1,14 +1,7 @@
 package lib
 
 type ILogic interface {
-	SetSudoku(*Sudoku)
 	RunStep() bool
-}
-
-func SetSudoku(sudoku *Sudoku, logics []ILogic) {
-	for _, logic := range logics {
-		logic.SetSudoku(sudoku)
-	}
 }
 
 func RunStep(logics []ILogic) bool {
