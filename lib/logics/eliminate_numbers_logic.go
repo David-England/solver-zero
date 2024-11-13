@@ -38,7 +38,7 @@ func setResolvedCells(cantBe *[9][9][9]bool, sudoku *lib.Sudoku) (isSuccessful b
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if sudoku.Grid[i][j] == 0 {
-				couldBe := make([]int, 9)
+				couldBe := make([]int, 0, 9)
 
 				for num := 1; num <= 9; num++ {
 					if !cantBe[i][j][num-1] {
