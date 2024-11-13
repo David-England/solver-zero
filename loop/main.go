@@ -18,7 +18,9 @@ func main() {
 	lib.SetSudoku(&sud, logics)
 
 	fmt.Println(sud.Grid)
-	lib.RunStep(logics)
+	for isChanged := true; isChanged; {
+		isChanged = lib.RunStep(logics)
+	}
 	fmt.Println(sud.Grid)
 }
 
