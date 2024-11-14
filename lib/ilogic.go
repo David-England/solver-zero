@@ -1,17 +1,21 @@
 package lib
 
 type ILogic interface {
-	RunStep() bool
+	RunStep() (bool, error)
 }
 
-func RunStep(logics []ILogic) bool {
+func RunStep(logics []ILogic) (bool, error) {
 	for _, logic := range logics {
-		isChanged := logic.RunStep()
+		isChanged, err := logic.RunStep()
+
+		if err != nil {
+			return isChanged, err
+		}
 
 		if isChanged {
-			return true
+			return true, nil
 		}
 	}
 
-	return false
+	return false, nil
 }

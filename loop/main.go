@@ -18,7 +18,7 @@ func main() {
 
 	fmt.Println(sud.Grid)
 	for isChanged := true; isChanged; {
-		isChanged = lib.RunStep(logics)
+		isChanged, _ = lib.RunStep(logics)
 	}
 	fmt.Println(sud.Grid)
 }
