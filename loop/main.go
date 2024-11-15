@@ -81,14 +81,16 @@ func parseLine(line string) ([9]int, error) {
 	}
 
 	for j := 0; j < 9; j++ {
-		var parseErr error
-
 		if len(cells[j]) > 0 {
-			row[j], parseErr = strconv.Atoi(cells[j])
-		}
+			x, parseErr := strconv.Atoi(cells[j])
 
-		if parseErr != nil {
-			return [9]int{}, parseErr
+			if parseErr != nil {
+				return [9]int{}, parseErr
+			} else if x < 1 || x > 9 {
+				return [9]int{}, fmt.Errorf("value not in [1,9]: %v", x)
+			} else {
+				row[j] = x
+			}
 		}
 	}
 
