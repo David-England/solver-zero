@@ -52,7 +52,7 @@ func importSudoku(filepath string) (lib.Sudoku, error) {
 }
 
 func parseCSV(csv string) (lib.Sudoku, error) {
-	lines := strings.Split(csv, "\n")
+	lines := strings.Split(csv, "\r\n")
 	var sudoku lib.Sudoku
 
 	if len(lines) < 9 {
