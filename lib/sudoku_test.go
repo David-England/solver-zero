@@ -8,7 +8,7 @@ import (
 func TestGetSubs(t *testing.T) {
 	// Arrange
 	sudoku := lib.Sudoku{
-		[9][9]int{
+		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
