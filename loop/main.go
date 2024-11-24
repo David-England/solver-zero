@@ -19,11 +19,11 @@ func main() {
 		&eliminatenumbers.EliminateNumbersLogic{Sudoku: &sud},
 	}
 
-	fmt.Println(sud.Grid)
+	printSudoku(sud)
 	if runErr := run(logics); runErr != nil {
 		log.Fatal(runErr)
 	}
-	fmt.Println(sud.Grid)
+	printSudoku(sud)
 }
 
 func run(logics []lib.ILogic) (runError error) {
@@ -36,4 +36,33 @@ func run(logics []lib.ILogic) (runError error) {
 	}
 
 	return
+}
+
+func printSudoku(sudoku lib.Sudoku) {
+	fmt.Println("-------------------------------")
+
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			printRow(sudoku.Grid[3*i+j])
+			fmt.Println()
+		}
+
+		fmt.Println("-------------------------------")
+	}
+}
+
+func printRow(row [9]int) {
+	fmt.Print("|")
+
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			if val := row[3*i+j]; val != 0 {
+				fmt.Printf(" %v ", val)
+			} else {
+				fmt.Print("   ")
+			}
+		}
+
+		fmt.Print("|")
+	}
 }
