@@ -5,7 +5,6 @@ import (
 	"solver-zero/lib"
 )
 
-// Operates the heuristic, "eliminate numbers available to a given cell, until only one remains".
 type EliminateNumbersLogic struct {
 	Sudoku *lib.Sudoku
 }

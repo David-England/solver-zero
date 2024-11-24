@@ -4,12 +4,10 @@ type Sudoku struct {
 	Grid [9][9]int
 }
 
-// Represents a 3x3 subgrid of a sudoku.
 type Sub struct {
 	Grid [3][3]int
 }
 
-// Returns a 3x3 array containing the 3x3 subgrids of a sudoku.
 func (suduko Sudoku) GetSubs() (subs [3][3]Sub) {
 	for subRow := 0; subRow < 3; subRow++ {
 		for subCol := 0; subCol < 3; subCol++ {
