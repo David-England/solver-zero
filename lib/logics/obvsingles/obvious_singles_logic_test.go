@@ -1,8 +1,8 @@
-package eliminatenumbers_test
+package obvsingles_test
 
 import (
 	"solver-zero/lib"
-	"solver-zero/lib/logics/eliminatenumbers"
+	"solver-zero/lib/logics/obvsingles"
 	"testing"
 )
 
@@ -21,7 +21,7 @@ func TestResolveRow(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := eliminatenumbers.EliminateNumbersLogic{&sudoku}
+	enLogic := obvsingles.ObviousSinglesLogic{&sudoku}
 
 	// Act
 	isChanged, _ := enLogic.RunStep()
@@ -50,7 +50,7 @@ func TestResolveColumn(t *testing.T) {
 			{0, 0, 0, 9, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := eliminatenumbers.EliminateNumbersLogic{&sudoku}
+	enLogic := obvsingles.ObviousSinglesLogic{&sudoku}
 
 	// Act
 	isChanged, _ := enLogic.RunStep()
@@ -79,7 +79,7 @@ func TestResolveSubgrid(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := eliminatenumbers.EliminateNumbersLogic{&sudoku}
+	enLogic := obvsingles.ObviousSinglesLogic{&sudoku}
 
 	// Act
 	isChanged, _ := enLogic.RunStep()
@@ -108,7 +108,7 @@ func TestResolveNothing(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := eliminatenumbers.EliminateNumbersLogic{&sudoku}
+	enLogic := obvsingles.ObviousSinglesLogic{&sudoku}
 
 	// Act
 	isChanged, _ := enLogic.RunStep()

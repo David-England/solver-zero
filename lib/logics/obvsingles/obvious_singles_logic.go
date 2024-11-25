@@ -1,15 +1,15 @@
-package eliminatenumbers
+package obvsingles
 
 import (
 	"fmt"
 	"solver-zero/lib"
 )
 
-type EliminateNumbersLogic struct {
+type ObviousSinglesLogic struct {
 	Sudoku *lib.Sudoku
 }
 
-func (logic *EliminateNumbersLogic) RunStep() (bool, error) {
+func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
 	cantBe := [9][9][9]bool{}
 
 	eliminateOptions(&cantBe, logic.Sudoku)
