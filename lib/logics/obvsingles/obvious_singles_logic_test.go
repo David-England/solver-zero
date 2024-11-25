@@ -21,10 +21,10 @@ func TestResolveRow(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := obvsingles.ObviousSinglesLogic{&sudoku}
+	logic := obvsingles.ObviousSinglesLogic{&sudoku}
 
 	// Act
-	isChanged, _ := enLogic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if !isChanged {
@@ -50,10 +50,10 @@ func TestResolveColumn(t *testing.T) {
 			{0, 0, 0, 9, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := obvsingles.ObviousSinglesLogic{&sudoku}
+	logic := obvsingles.ObviousSinglesLogic{&sudoku}
 
 	// Act
-	isChanged, _ := enLogic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if !isChanged {
@@ -79,10 +79,10 @@ func TestResolveSubgrid(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := obvsingles.ObviousSinglesLogic{&sudoku}
+	logic := obvsingles.ObviousSinglesLogic{&sudoku}
 
 	// Act
-	isChanged, _ := enLogic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if !isChanged {
@@ -108,10 +108,10 @@ func TestResolveNothing(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := obvsingles.ObviousSinglesLogic{&sudoku}
+	logic := obvsingles.ObviousSinglesLogic{&sudoku}
 
 	// Act
-	isChanged, _ := enLogic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if isChanged {
