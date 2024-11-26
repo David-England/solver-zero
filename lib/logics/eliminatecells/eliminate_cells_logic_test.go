@@ -50,10 +50,10 @@ func TestResolveTrivialRow(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := eliminatecells.EliminateCellsLogic{&sudoku}
+	logic := eliminatecells.EliminateCellsLogic{&sudoku}
 
 	// Act
-	isChanged, _ := enLogic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if !isChanged {
@@ -79,10 +79,10 @@ func TestResolveTrivialColumn(t *testing.T) {
 			{0, 0, 0, 9, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := eliminatecells.EliminateCellsLogic{&sudoku}
+	logic := eliminatecells.EliminateCellsLogic{&sudoku}
 
 	// Act
-	isChanged, _ := enLogic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if !isChanged {
@@ -108,10 +108,10 @@ func TestResolveTrivialSubgrid(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	enLogic := eliminatecells.EliminateCellsLogic{&sudoku}
+	logic := eliminatecells.EliminateCellsLogic{&sudoku}
 
 	// Act
-	isChanged, _ := enLogic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if !isChanged {
