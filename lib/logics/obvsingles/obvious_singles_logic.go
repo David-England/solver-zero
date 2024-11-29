@@ -11,7 +11,7 @@ type ObviousSinglesLogic struct {
 }
 
 func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
-	pencilMarks := pencil.PencilMarksMatrix{}
+	pencilMarks := pencil.PencilMarks{}
 
 	pencilMarks.EliminateOptions(logic.Sudoku)
 	isChanged, err := setResolvedCells(&pencilMarks, logic.Sudoku)
@@ -19,7 +19,7 @@ func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
 	return isChanged, err
 }
 
-func setResolvedCells(pencilMarks *pencil.PencilMarksMatrix, sudoku *lib.Sudoku) (bool, error) {
+func setResolvedCells(pencilMarks *pencil.PencilMarks, sudoku *lib.Sudoku) (bool, error) {
 	isSuccessful := false
 
 	for i := 0; i < 9; i++ {

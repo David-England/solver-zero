@@ -2,12 +2,12 @@ package pencil
 
 import "solver-zero/lib"
 
-type PencilMarksMatrix struct {
+type PencilMarks struct {
 	// Dimensions: row, column, number - 1.
 	CantBe [9][9][9]bool
 }
 
-func (pencilMarks *PencilMarksMatrix) CandidateNumbers(row, col int) []int {
+func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
 	couldBe := make([]int, 0, 9)
 
 	for num := 1; num <= 9; num++ {
@@ -19,7 +19,7 @@ func (pencilMarks *PencilMarksMatrix) CandidateNumbers(row, col int) []int {
 	return couldBe
 }
 
-func (pencilMarks *PencilMarksMatrix) EliminateOptions(sudoku *lib.Sudoku) {
+func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if sudoku.Grid[i][j] != 0 {
@@ -31,19 +31,19 @@ func (pencilMarks *PencilMarksMatrix) EliminateOptions(sudoku *lib.Sudoku) {
 	}
 }
 
-func (pencilMarks *PencilMarksMatrix) banRowForNumber(row int, num int) {
+func (pencilMarks *PencilMarks) banRowForNumber(row int, num int) {
 	for col := 0; col < 9; col++ {
 		pencilMarks.CantBe[row][col][num-1] = true
 	}
 }
 
-func (pencilMarks *PencilMarksMatrix) banColumnForNumber(col int, num int) {
+func (pencilMarks *PencilMarks) banColumnForNumber(col int, num int) {
 	for row := 0; row < 9; row++ {
 		pencilMarks.CantBe[row][col][num-1] = true
 	}
 }
 
-func (pencilMarks *PencilMarksMatrix) banSubgridForNumber(subgridRow int, subgridColumn int, num int) {
+func (pencilMarks *PencilMarks) banSubgridForNumber(subgridRow int, subgridColumn int, num int) {
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
 			pencilMarks.CantBe[3*subgridRow+i][3*subgridColumn+j][num-1] = true
