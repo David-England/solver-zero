@@ -20,6 +20,8 @@ func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
 }
 
 func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
+	pencilMarks.CantBe = [9][9][9]bool{}
+
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if sudoku.Grid[i][j] != 0 {
