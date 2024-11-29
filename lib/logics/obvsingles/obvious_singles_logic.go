@@ -3,6 +3,7 @@ package obvsingles
 import (
 	"fmt"
 	"solver-zero/lib"
+	"solver-zero/lib/pencil"
 )
 
 type ObviousSinglesLogic struct {
@@ -10,27 +11,15 @@ type ObviousSinglesLogic struct {
 }
 
 func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
-	cantBe := [9][9][9]bool{}
+	pencilMarks := pencil.PencilMarksMatrix{}
 
-	eliminateOptions(&cantBe, logic.Sudoku)
-	isChanged, err := setResolvedCells(&cantBe, logic.Sudoku)
+	pencilMarks.EliminateOptions(logic.Sudoku)
+	isChanged, err := setResolvedCells(&pencilMarks, logic.Sudoku)
 
 	return isChanged, err
 }
 
-func eliminateOptions(cantBe *[9][9][9]bool, sudoku *lib.Sudoku) {
-	for i := 0; i < 9; i++ {
-		for j := 0; j < 9; j++ {
-			if sudoku.Grid[i][j] != 0 {
-				banRowForNumber(cantBe, i, sudoku.Grid[i][j])
-				banColumnForNumber(cantBe, j, sudoku.Grid[i][j])
-				banSubgridForNumber(cantBe, i/3, j/3, sudoku.Grid[i][j])
-			}
-		}
-	}
-}
-
-func setResolvedCells(cantBe *[9][9][9]bool, sudoku *lib.Sudoku) (bool, error) {
+func setResolvedCells(pencilMarks *pencil.PencilMarksMatrix, sudoku *lib.Sudoku) (bool, error) {
 	isSuccessful := false
 
 	for i := 0; i < 9; i++ {
@@ -39,7 +28,7 @@ func setResolvedCells(cantBe *[9][9][9]bool, sudoku *lib.Sudoku) (bool, error) {
 				couldBe := make([]int, 0, 9)
 
 				for num := 1; num <= 9; num++ {
-					if !cantBe[i][j][num-1] {
+					if !pencilMarks.CantBe[i][j][num-1] {
 						couldBe = append(couldBe, num)
 					}
 				}
@@ -55,24 +44,4 @@ func setResolvedCells(cantBe *[9][9][9]bool, sudoku *lib.Sudoku) (bool, error) {
 	}
 
 	return isSuccessful, nil
-}
-
-func banRowForNumber(cantBe *[9][9][9]bool, row int, num int) {
-	for col := 0; col < 9; col++ {
-		cantBe[row][col][num-1] = true
-	}
-}
-
-func banColumnForNumber(cantBe *[9][9][9]bool, col int, num int) {
-	for row := 0; row < 9; row++ {
-		cantBe[row][col][num-1] = true
-	}
-}
-
-func banSubgridForNumber(cantBe *[9][9][9]bool, subgridRow int, subgridColumn int, num int) {
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 3; j++ {
-			cantBe[3*subgridRow+i][3*subgridColumn+j][num-1] = true
-		}
-	}
 }
