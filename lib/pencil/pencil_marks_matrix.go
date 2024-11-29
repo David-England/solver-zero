@@ -7,6 +7,18 @@ type PencilMarksMatrix struct {
 	CantBe [9][9][9]bool
 }
 
+func (pencilMarks *PencilMarksMatrix) CandidateNumbers(row, col int) []int {
+	couldBe := make([]int, 0, 9)
+
+	for num := 1; num <= 9; num++ {
+		if !pencilMarks.CantBe[row][col][num-1] {
+			couldBe = append(couldBe, num)
+		}
+	}
+
+	return couldBe
+}
+
 func (pencilMarks *PencilMarksMatrix) EliminateOptions(sudoku *lib.Sudoku) {
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {

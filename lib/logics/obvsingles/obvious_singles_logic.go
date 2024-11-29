@@ -25,13 +25,7 @@ func setResolvedCells(pencilMarks *pencil.PencilMarksMatrix, sudoku *lib.Sudoku)
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if sudoku.Grid[i][j] == 0 {
-				couldBe := make([]int, 0, 9)
-
-				for num := 1; num <= 9; num++ {
-					if !pencilMarks.CantBe[i][j][num-1] {
-						couldBe = append(couldBe, num)
-					}
-				}
+				couldBe := pencilMarks.CandidateNumbers(i, j)
 
 				if len(couldBe) == 1 {
 					sudoku.Grid[i][j] = couldBe[0]
