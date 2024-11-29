@@ -4,14 +4,14 @@ import "solver-zero/lib"
 
 type PencilMarks struct {
 	// Dimensions: row, column, number - 1.
-	CantBe [9][9][9]bool
+	cantBe [9][9][9]bool
 }
 
 func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
 	couldBe := make([]int, 0, 9)
 
 	for num := 1; num <= 9; num++ {
-		if !pencilMarks.CantBe[row][col][num-1] {
+		if !pencilMarks.cantBe[row][col][num-1] {
 			couldBe = append(couldBe, num)
 		}
 	}
@@ -20,7 +20,7 @@ func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
 }
 
 func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
-	pencilMarks.CantBe = [9][9][9]bool{}
+	pencilMarks.cantBe = [9][9][9]bool{}
 
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
@@ -35,20 +35,20 @@ func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
 
 func (pencilMarks *PencilMarks) banRowForNumber(row int, num int) {
 	for col := 0; col < 9; col++ {
-		pencilMarks.CantBe[row][col][num-1] = true
+		pencilMarks.cantBe[row][col][num-1] = true
 	}
 }
 
 func (pencilMarks *PencilMarks) banColumnForNumber(col int, num int) {
 	for row := 0; row < 9; row++ {
-		pencilMarks.CantBe[row][col][num-1] = true
+		pencilMarks.cantBe[row][col][num-1] = true
 	}
 }
 
 func (pencilMarks *PencilMarks) banSubgridForNumber(subgridRow int, subgridColumn int, num int) {
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
-			pencilMarks.CantBe[3*subgridRow+i][3*subgridColumn+j][num-1] = true
+			pencilMarks.cantBe[3*subgridRow+i][3*subgridColumn+j][num-1] = true
 		}
 	}
 }

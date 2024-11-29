@@ -14,12 +14,12 @@ func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
 	pencilMarks := pencil.PencilMarks{}
 
 	pencilMarks.EliminateOptions(logic.Sudoku)
-	isChanged, err := setResolvedCells(&pencilMarks, logic.Sudoku)
+	isChanged, err := setObviousSingles(&pencilMarks, logic.Sudoku)
 
 	return isChanged, err
 }
 
-func setResolvedCells(pencilMarks *pencil.PencilMarks, sudoku *lib.Sudoku) (bool, error) {
+func setObviousSingles(pencilMarks *pencil.PencilMarks, sudoku *lib.Sudoku) (bool, error) {
 	isSuccessful := false
 
 	for i := 0; i < 9; i++ {
