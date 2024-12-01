@@ -28,6 +28,7 @@ func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
 				pencilMarks.banRowForNumber(i, sudoku.Grid[i][j])
 				pencilMarks.banColumnForNumber(j, sudoku.Grid[i][j])
 				pencilMarks.banSubgridForNumber(i/3, j/3, sudoku.Grid[i][j])
+				pencilMarks.banAllNumbersForCell(i, j)
 			}
 		}
 	}
@@ -50,5 +51,11 @@ func (pencilMarks *PencilMarks) banSubgridForNumber(subgridRow int, subgridColum
 		for j := 0; j < 3; j++ {
 			pencilMarks.cantBe[3*subgridRow+i][3*subgridColumn+j][num-1] = true
 		}
+	}
+}
+
+func (pencilMarks *PencilMarks) banAllNumbersForCell(row, col int) {
+	for num := 1; num <= 9; num++ {
+		pencilMarks.cantBe[row][col][num-1] = true
 	}
 }
