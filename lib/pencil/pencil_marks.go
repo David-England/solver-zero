@@ -19,6 +19,18 @@ func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
 	return couldBe
 }
 
+func (pencilMarks *PencilMarks) CandidateCellsInRow(row, num int) []int {
+	couldBe := make([]int, 0, 9)
+
+	for col := 0; col < 9; col++ {
+		if !pencilMarks.cantBe[row][col][num-1] {
+			couldBe = append(couldBe, col)
+		}
+	}
+
+	return couldBe
+}
+
 func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
 	pencilMarks.cantBe = [9][9][9]bool{}
 
