@@ -31,6 +31,35 @@ func (pencilMarks *PencilMarks) CandidateCellsInRow(row, num int) []int {
 	return couldBe
 }
 
+func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []int {
+	couldBe := make([]int, 0, 9)
+
+	for row := 0; row < 9; row++ {
+		if !pencilMarks.cantBe[row][col][num-1] {
+			couldBe = append(couldBe, row)
+		}
+	}
+
+	return couldBe
+}
+
+func (pencilMarks *PencilMarks) CandidateCellsInSubgrid(
+	subgridRow, subgridCol, num int) (rowVals []int, colVals []int) {
+	rowVals = make([]int, 0, 9)
+	colVals = make([]int, 0, 9)
+
+	for i := 3 * subgridRow; i < 3*(subgridRow+1); i++ {
+		for j := 3 * subgridCol; j < 3*(subgridCol+1); j++ {
+			if !pencilMarks.cantBe[i][j][num-1] {
+				rowVals = append(rowVals, i)
+				colVals = append(colVals, j)
+			}
+		}
+	}
+
+	return
+}
+
 func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
 	pencilMarks.cantBe = [9][9][9]bool{}
 
