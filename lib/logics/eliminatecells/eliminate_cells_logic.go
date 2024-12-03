@@ -16,52 +16,25 @@ func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 	pencilMarks.EliminateOptions(logic.Sudoku)
 
 	for i := 0; i < 9; i++ {
-		isSuccessful = resolveRow(i, &pencilMarks, logic.Sudoku) || isSuccessful
-		isSuccessful = resolveCol(i, &pencilMarks, logic.Sudoku) || isSuccessful
-		isSuccessful = resolveSub(i/3, i%3, &pencilMarks, logic.Sudoku) || isSuccessful
+		for num := 1; num <= 9; num++ {
+			rowCandidates := pencilMarks.CandidateCellsInRow(i, num)
+			colCandidates := pencilMarks.CandidateCellsInColumn(i, num)
+			subCandidates := pencilMarks.CandidateCellsInSubgrid(i/3, i%3, num)
+
+			isSuccessful = resolveLastCandidates(rowCandidates, num, logic.Sudoku) || isSuccessful
+			isSuccessful = resolveLastCandidates(colCandidates, num, logic.Sudoku) || isSuccessful
+			isSuccessful = resolveLastCandidates(subCandidates, num, logic.Sudoku) || isSuccessful
+		}
 	}
 
 	return isSuccessful, nil
 }
 
-func resolveRow(row int, pencilMarks *pencil.PencilMarks, sud *lib.Sudoku) (isSuccessful bool) {
-	for num := 1; num <= 9; num++ {
-		candidateCells := pencilMarks.CandidateCellsInRow(row, num)
-
-		if len(candidateCells) == 1 {
-			cell := candidateCells[0]
-			sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
-			isSuccessful = true
-		}
-	}
-
-	return
-}
-
-func resolveCol(col int, pencilMarks *pencil.PencilMarks, sud *lib.Sudoku) (isSuccessful bool) {
-	for num := 1; num <= 9; num++ {
-		candidateCells := pencilMarks.CandidateCellsInColumn(col, num)
-
-		if len(candidateCells) == 1 {
-			cell := candidateCells[0]
-			sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
-			isSuccessful = true
-		}
-	}
-
-	return
-}
-
-func resolveSub(subgridRow, subgridCol int, pencilMarks *pencil.PencilMarks,
-	sud *lib.Sudoku) (isSuccessful bool) {
-	for num := 1; num <= 9; num++ {
-		candidateCells := pencilMarks.CandidateCellsInSubgrid(subgridRow, subgridCol, num)
-
-		if len(candidateCells) == 1 {
-			cell := candidateCells[0]
-			sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
-			isSuccessful = true
-		}
+func resolveLastCandidates(candidates []lib.Coords, num int, sud *lib.Sudoku) (isSuccessful bool) {
+	if len(candidates) == 1 {
+		cell := candidates[0]
+		sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
+		isSuccessful = true
 	}
 
 	return
