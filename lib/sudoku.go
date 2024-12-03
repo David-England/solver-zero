@@ -8,6 +8,11 @@ type Sub struct {
 	Grid [3][3]int
 }
 
+type Coords struct {
+	RowIndex    int
+	ColumnIndex int
+}
+
 func (suduko Sudoku) GetSubs() (subs [3][3]Sub) {
 	for subRow := 0; subRow < 3; subRow++ {
 		for subCol := 0; subCol < 3; subCol++ {

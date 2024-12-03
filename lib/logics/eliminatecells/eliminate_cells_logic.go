@@ -29,7 +29,8 @@ func resolveRow(row int, pencilMarks *pencil.PencilMarks, sud *lib.Sudoku) (isSu
 		candidateCells := pencilMarks.CandidateCellsInRow(row, num)
 
 		if len(candidateCells) == 1 {
-			sud.Grid[row][candidateCells[0]] = num
+			cell := candidateCells[0]
+			sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
 			isSuccessful = true
 		}
 	}
@@ -42,7 +43,8 @@ func resolveCol(col int, pencilMarks *pencil.PencilMarks, sud *lib.Sudoku) (isSu
 		candidateCells := pencilMarks.CandidateCellsInColumn(col, num)
 
 		if len(candidateCells) == 1 {
-			sud.Grid[candidateCells[0]][col] = num
+			cell := candidateCells[0]
+			sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
 			isSuccessful = true
 		}
 	}
@@ -53,11 +55,11 @@ func resolveCol(col int, pencilMarks *pencil.PencilMarks, sud *lib.Sudoku) (isSu
 func resolveSub(subgridRow, subgridCol int, pencilMarks *pencil.PencilMarks,
 	sud *lib.Sudoku) (isSuccessful bool) {
 	for num := 1; num <= 9; num++ {
-		cellRowVals, cellColVals := pencilMarks.CandidateCellsInSubgrid(
-			subgridRow, subgridCol, num)
+		candidateCells := pencilMarks.CandidateCellsInSubgrid(subgridRow, subgridCol, num)
 
-		if len(cellRowVals) == 1 {
-			sud.Grid[cellRowVals[0]][cellColVals[0]] = num
+		if len(candidateCells) == 1 {
+			cell := candidateCells[0]
+			sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
 			isSuccessful = true
 		}
 	}

@@ -19,24 +19,24 @@ func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) CandidateCellsInRow(row, num int) []int {
-	couldBe := make([]int, 0, 9)
+func (pencilMarks *PencilMarks) CandidateCellsInRow(row, num int) []lib.Coords {
+	couldBe := make([]lib.Coords, 0, 9)
 
 	for col := 0; col < 9; col++ {
 		if !pencilMarks.cantBe[row][col][num-1] {
-			couldBe = append(couldBe, col)
+			couldBe = append(couldBe, lib.Coords{RowIndex: row, ColumnIndex: col})
 		}
 	}
 
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []int {
-	couldBe := make([]int, 0, 9)
+func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []lib.Coords {
+	couldBe := make([]lib.Coords, 0, 9)
 
 	for row := 0; row < 9; row++ {
 		if !pencilMarks.cantBe[row][col][num-1] {
-			couldBe = append(couldBe, row)
+			couldBe = append(couldBe, lib.Coords{RowIndex: row, ColumnIndex: col})
 		}
 	}
 
@@ -44,20 +44,18 @@ func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []int {
 }
 
 func (pencilMarks *PencilMarks) CandidateCellsInSubgrid(
-	subgridRow, subgridCol, num int) (rowVals []int, colVals []int) {
-	rowVals = make([]int, 0, 9)
-	colVals = make([]int, 0, 9)
+	subgridRow, subgridCol, num int) []lib.Coords {
+	couldBe := make([]lib.Coords, 0, 9)
 
 	for i := 3 * subgridRow; i < 3*(subgridRow+1); i++ {
 		for j := 3 * subgridCol; j < 3*(subgridCol+1); j++ {
 			if !pencilMarks.cantBe[i][j][num-1] {
-				rowVals = append(rowVals, i)
-				colVals = append(colVals, j)
+				couldBe = append(couldBe, lib.Coords{RowIndex: i, ColumnIndex: j})
 			}
 		}
 	}
 
-	return
+	return couldBe
 }
 
 func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
