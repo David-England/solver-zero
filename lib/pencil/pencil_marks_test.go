@@ -131,7 +131,7 @@ func TestBanAllNumbers(t *testing.T) {
 func TestBanNothingForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
-	sudoku := getEmptySuduko()
+	sudoku := getEmptySudoku()
 
 	// Act
 	sut.EliminateOptions(&sudoku)
@@ -274,7 +274,7 @@ func TestCandidatesInSubgrid(t *testing.T) {
 func TestCandidateNumbersForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
-	sudoku := getEmptySuduko()
+	sudoku := getEmptySudoku()
 	sut.EliminateOptions(&sudoku)
 
 	// Act
@@ -295,7 +295,7 @@ func TestCandidatesInRowForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	row := 0
-	sudoku := getEmptySuduko()
+	sudoku := getEmptySudoku()
 	sut.EliminateOptions(&sudoku)
 
 	// Act
@@ -317,7 +317,7 @@ func TestCandidatesInColForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	col := 0
-	sudoku := getEmptySuduko()
+	sudoku := getEmptySudoku()
 	sut.EliminateOptions(&sudoku)
 
 	// Act
@@ -339,7 +339,7 @@ func TestCandidatesInSubForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	subRow, subCol := 2, 2
-	sudoku := getEmptySuduko()
+	sudoku := getEmptySudoku()
 	sut.EliminateOptions(&sudoku)
 
 	// Act
@@ -360,7 +360,7 @@ func TestCandidatesInSubForEmpty(t *testing.T) {
 	}
 }
 
-func getEmptySuduko() lib.Sudoku {
+func getEmptySudoku() lib.Sudoku {
 	return lib.Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
