@@ -149,6 +149,128 @@ func TestBanNothingForEmpty(t *testing.T) {
 	}
 }
 
+func TestCandidateNumbers(t *testing.T) {
+	// Arrange
+	sut := PencilMarks{}
+	sudoku := lib.Sudoku{
+		Grid: [9][9]int{
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{1, 2, 3, 0, 5, 6, 7, 8, 9},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		},
+	}
+	sut.EliminateOptions(&sudoku)
+
+	// Act
+	candidates := sut.CandidateNumbers(3, 3)
+
+	// Assert
+	if !slices.Contains(candidates, 4) {
+		t.Fatalf("4 should be candidate, but was not")
+	} else if len(candidates) != 1 {
+		t.Fatalf("should be exactly 1 candidate number in row with 8 solved cells")
+	}
+}
+
+func TestCandidatesInRow(t *testing.T) {
+	// Arrange
+	sut := PencilMarks{}
+	row := 3
+	sudoku := lib.Sudoku{
+		Grid: [9][9]int{
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{1, 2, 3, 0, 5, 6, 7, 8, 9},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		},
+	}
+	sut.EliminateOptions(&sudoku)
+
+	// Act
+	candidates := sut.CandidateCellsInRow(row, 4)
+
+	// Assert
+	cell := lib.Coords{RowIndex: row, ColumnIndex: 3}
+	if !slices.Contains(candidates, cell) {
+		t.Fatalf("%v should be candidate, but was not", cell)
+	} else if len(candidates) != 1 {
+		t.Fatalf("should be exactly 1 candidate cell in row with 8 solved cells")
+	}
+}
+
+func TestCandidatesInColumn(t *testing.T) {
+	// Arrange
+	sut := PencilMarks{}
+	col := 3
+	sudoku := lib.Sudoku{
+		Grid: [9][9]int{
+			{0, 0, 0, 1, 0, 0, 0, 0, 0},
+			{0, 0, 0, 2, 0, 0, 0, 0, 0},
+			{0, 0, 0, 3, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 5, 0, 0, 0, 0, 0},
+			{0, 0, 0, 6, 0, 0, 0, 0, 0},
+			{0, 0, 0, 7, 0, 0, 0, 0, 0},
+			{0, 0, 0, 8, 0, 0, 0, 0, 0},
+			{0, 0, 0, 9, 0, 0, 0, 0, 0},
+		},
+	}
+	sut.EliminateOptions(&sudoku)
+
+	// Act
+	candidates := sut.CandidateCellsInColumn(col, 4)
+
+	// Assert
+	cell := lib.Coords{RowIndex: 3, ColumnIndex: col}
+	if !slices.Contains(candidates, cell) {
+		t.Fatalf("%v should be candidate, but was not", cell)
+	} else if len(candidates) != 1 {
+		t.Fatalf("should be exactly 1 candidate cell in column with 8 solved cells")
+	}
+}
+
+func TestCandidatesInSubgrid(t *testing.T) {
+	// Arrange
+	sut := PencilMarks{}
+	subRow, subCol := 2, 2
+	sudoku := lib.Sudoku{
+		Grid: [9][9]int{
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 1, 2, 3},
+			{0, 0, 0, 0, 0, 0, 0, 5, 6},
+			{0, 0, 0, 0, 0, 0, 7, 8, 9},
+		},
+	}
+	sut.EliminateOptions(&sudoku)
+
+	// Act
+	candidates := sut.CandidateCellsInSubgrid(subRow, subCol, 4)
+
+	// Assert
+	cell := lib.Coords{RowIndex: 8, ColumnIndex: 7}
+	if !slices.Contains(candidates, cell) {
+		t.Fatalf("%v should be candidate, but was not", cell)
+	} else if len(candidates) != 1 {
+		t.Fatalf("should be exactly 1 candidate cell in subgrid with 8 solved cells")
+	}
+}
+
 func TestCandidateNumbersForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
