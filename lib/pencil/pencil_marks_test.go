@@ -263,7 +263,7 @@ func TestCandidatesInSubgrid(t *testing.T) {
 	candidates := sut.CandidateCellsInSubgrid(subRow, subCol, 4)
 
 	// Assert
-	cell := lib.Coords{RowIndex: 8, ColumnIndex: 7}
+	cell := lib.Coords{RowIndex: 7, ColumnIndex: 6}
 	if !slices.Contains(candidates, cell) {
 		t.Fatalf("%v should be candidate, but was not", cell)
 	} else if len(candidates) != 1 {
