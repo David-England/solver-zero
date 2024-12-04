@@ -131,19 +131,7 @@ func TestBanAllNumbers(t *testing.T) {
 func TestBanNothingForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
+	sudoku := getEmptySuduko()
 
 	// Act
 	sut.EliminateOptions(&sudoku)
@@ -164,19 +152,7 @@ func TestBanNothingForEmpty(t *testing.T) {
 func TestCandidateNumbersForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
+	sudoku := getEmptySuduko()
 	sut.EliminateOptions(&sudoku)
 
 	// Act
@@ -197,19 +173,7 @@ func TestCandidatesInRowForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	row := 0
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
+	sudoku := getEmptySuduko()
 	sut.EliminateOptions(&sudoku)
 
 	// Act
@@ -231,19 +195,7 @@ func TestCandidatesInColForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	col := 0
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
+	sudoku := getEmptySuduko()
 	sut.EliminateOptions(&sudoku)
 
 	// Act
@@ -265,19 +217,7 @@ func TestCandidatesInSubForEmpty(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	subRow, subCol := 2, 2
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
+	sudoku := getEmptySuduko()
 	sut.EliminateOptions(&sudoku)
 
 	// Act
@@ -295,5 +235,21 @@ func TestCandidatesInSubForEmpty(t *testing.T) {
 	}
 	if len(candidates) != 9 {
 		t.Fatalf("should be 9 candidate cells for empty subgrid, but was %v", len(candidates))
+	}
+}
+
+func getEmptySuduko() lib.Sudoku {
+	return lib.Sudoku{
+		Grid: [9][9]int{
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		},
 	}
 }
