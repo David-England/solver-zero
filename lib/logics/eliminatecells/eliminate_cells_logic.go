@@ -21,16 +21,16 @@ func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 			colCandidates := pencilMarks.CandidateCellsInColumn(i, num)
 			subCandidates := pencilMarks.CandidateCellsInSubgrid(i/3, i%3, num)
 
-			isSuccessful = resolveLastCandidates(rowCandidates, num, logic.Sudoku) || isSuccessful
-			isSuccessful = resolveLastCandidates(colCandidates, num, logic.Sudoku) || isSuccessful
-			isSuccessful = resolveLastCandidates(subCandidates, num, logic.Sudoku) || isSuccessful
+			isSuccessful = setIfOneCandidate(rowCandidates, num, logic.Sudoku) || isSuccessful
+			isSuccessful = setIfOneCandidate(colCandidates, num, logic.Sudoku) || isSuccessful
+			isSuccessful = setIfOneCandidate(subCandidates, num, logic.Sudoku) || isSuccessful
 		}
 	}
 
 	return isSuccessful, nil
 }
 
-func resolveLastCandidates(candidates []lib.Coords, num int, sud *lib.Sudoku) (isSuccessful bool) {
+func setIfOneCandidate(candidates []lib.Coords, num int, sud *lib.Sudoku) (isSuccessful bool) {
 	if len(candidates) == 1 {
 		cell := candidates[0]
 		sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
