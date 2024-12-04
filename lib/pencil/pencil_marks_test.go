@@ -1,6 +1,7 @@
 package pencil
 
 import (
+	"fmt"
 	"slices"
 	"solver-zero/lib"
 	"testing"
@@ -171,11 +172,9 @@ func TestCandidateNumbers(t *testing.T) {
 	candidates := sut.CandidateNumbers(3, 3)
 
 	// Assert
-	if !slices.Contains(candidates, 4) {
-		t.Fatalf("4 should be candidate, but was not")
-	} else if len(candidates) != 1 {
-		t.Fatalf("should be exactly 1 candidate number in row with 8 solved cells")
-	}
+	assertContains(candidates, 4, "4 should be candidate, but was not", t)
+	assertLength(candidates, 1,
+		"should be exactly 1 candidate number in row with 8 solved cells", t)
 }
 
 func TestCandidatesInRow(t *testing.T) {
@@ -202,11 +201,8 @@ func TestCandidatesInRow(t *testing.T) {
 
 	// Assert
 	cell := lib.Coords{RowIndex: row, ColumnIndex: 3}
-	if !slices.Contains(candidates, cell) {
-		t.Fatalf("%v should be candidate, but was not", cell)
-	} else if len(candidates) != 1 {
-		t.Fatalf("should be exactly 1 candidate cell in row with 8 solved cells")
-	}
+	assertContains(candidates, cell, fmt.Sprintf("%v should be candidate, but was not", cell), t)
+	assertLength(candidates, 1, "should be exactly 1 candidate cell in row with 8 solved cells", t)
 }
 
 func TestCandidatesInColumn(t *testing.T) {
@@ -233,11 +229,9 @@ func TestCandidatesInColumn(t *testing.T) {
 
 	// Assert
 	cell := lib.Coords{RowIndex: 3, ColumnIndex: col}
-	if !slices.Contains(candidates, cell) {
-		t.Fatalf("%v should be candidate, but was not", cell)
-	} else if len(candidates) != 1 {
-		t.Fatalf("should be exactly 1 candidate cell in column with 8 solved cells")
-	}
+	assertContains(candidates, cell, fmt.Sprintf("%v should be candidate, but was not", cell), t)
+	assertLength(candidates, 1,
+		"should be exactly 1 candidate cell in column with 8 solved cells", t)
 }
 
 func TestCandidatesInSubgrid(t *testing.T) {
@@ -264,11 +258,9 @@ func TestCandidatesInSubgrid(t *testing.T) {
 
 	// Assert
 	cell := lib.Coords{RowIndex: 7, ColumnIndex: 6}
-	if !slices.Contains(candidates, cell) {
-		t.Fatalf("%v should be candidate, but was not", cell)
-	} else if len(candidates) != 1 {
-		t.Fatalf("should be exactly 1 candidate cell in subgrid with 8 solved cells")
-	}
+	assertContains(candidates, cell, fmt.Sprintf("%v should be candidate, but was not", cell), t)
+	assertLength(candidates, 1,
+		"should be exactly 1 candidate cell in subgrid with 8 solved cells", t)
 }
 
 func TestCandidateNumbersForEmpty(t *testing.T) {
@@ -282,13 +274,11 @@ func TestCandidateNumbersForEmpty(t *testing.T) {
 
 	// Assert
 	for num := 1; num <= 9; num++ {
-		if !slices.Contains(candidates, num) {
-			t.Fatalf("every number should be a candidate for an empty sudoku, but %v was not", num)
-		}
+		assertContains(candidates, num, fmt.Sprintf(
+			"every number should be a candidate for an empty sudoku, but %v was not", num), t)
 	}
-	if len(candidates) != 9 {
-		t.Fatalf("should be 9 candidate numbers for empty sudoku, but was %v", len(candidates))
-	}
+	assertLength(candidates, 9, fmt.Sprintf(
+		"should be 9 candidate numbers for empty sudoku, but was %v", len(candidates)), t)
 }
 
 func TestCandidatesInRowForEmpty(t *testing.T) {
@@ -304,13 +294,11 @@ func TestCandidatesInRowForEmpty(t *testing.T) {
 	// Assert
 	for i := 0; i < 9; i++ {
 		cell := lib.Coords{RowIndex: row, ColumnIndex: i}
-		if !slices.Contains(candidates, cell) {
-			t.Fatalf("every cell should be a candidate for an empty row, but %v was not", cell)
-		}
+		assertContains(candidates, cell, fmt.Sprintf(
+			"every cell should be a candidate for an empty row, but %v was not", cell), t)
 	}
-	if len(candidates) != 9 {
-		t.Fatalf("should be 9 candidate cells for empty row, but was %v", len(candidates))
-	}
+	assertLength(candidates, 9, fmt.Sprintf(
+		"should be 9 candidate cells for empty row, but was %v", len(candidates)), t)
 }
 
 func TestCandidatesInColForEmpty(t *testing.T) {
@@ -326,13 +314,11 @@ func TestCandidatesInColForEmpty(t *testing.T) {
 	// Assert
 	for i := 0; i < 9; i++ {
 		cell := lib.Coords{RowIndex: i, ColumnIndex: col}
-		if !slices.Contains(candidates, cell) {
-			t.Fatalf("every cell should be a candidate for an empty column, but %v was not", cell)
-		}
+		assertContains(candidates, cell, fmt.Sprintf(
+			"every cell should be a candidate for an empty column, but %v was not", cell), t)
 	}
-	if len(candidates) != 9 {
-		t.Fatalf("should be 9 candidate cells for empty column, but was %v", len(candidates))
-	}
+	assertLength(candidates, 9, fmt.Sprintf(
+		"should be 9 candidate cells for empty column, but was %v", len(candidates)), t)
 }
 
 func TestCandidatesInSubForEmpty(t *testing.T) {
@@ -349,15 +335,12 @@ func TestCandidatesInSubForEmpty(t *testing.T) {
 	for row := 3 * subRow; row < 3*(subRow+1); row++ {
 		for col := 3 * subCol; col < 3*(subCol+1); col++ {
 			cell := lib.Coords{RowIndex: row, ColumnIndex: col}
-			if !slices.Contains(candidates, cell) {
-				t.Fatalf("every cell should be a candidate for an empty subgrid,"+
-					"but %v was not", cell)
-			}
+			assertContains(candidates, cell, fmt.Sprintf(
+				"every cell should be a candidate for an empty subgrid, but %v was not", cell), t)
 		}
 	}
-	if len(candidates) != 9 {
-		t.Fatalf("should be 9 candidate cells for empty subgrid, but was %v", len(candidates))
-	}
+	assertLength(candidates, 9, fmt.Sprintf(
+		"should be 9 candidate cells for empty subgrid, but was %v", len(candidates)), t)
 }
 
 func getEmptySudoku() lib.Sudoku {
@@ -373,5 +356,17 @@ func getEmptySudoku() lib.Sudoku {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
+	}
+}
+
+func assertContains[T comparable](container []T, item T, failMessage string, t *testing.T) {
+	if !slices.Contains(container, item) {
+		t.Fatal(failMessage)
+	}
+}
+
+func assertLength[T comparable](container []T, expected int, failMessage string, t *testing.T) {
+	if len(container) != expected {
+		t.Fatal(failMessage)
 	}
 }
