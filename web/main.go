@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"net/http"
 	"solver-zero/lib"
 	"solver-zero/lib/logics/eliminatecells"
@@ -20,12 +21,15 @@ func solveSudoku(c *gin.Context) {
 	sud := lib.Sudoku{}
 
 	if err := c.BindJSON(&sud); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
-	solutionSteps, _ := runSolver(sud)
-
-	c.IndentedJSON(http.StatusOK, solutionSteps)
+	if solutionSteps, err := runSolver(sud); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+	} else {
+		c.IndentedJSON(http.StatusOK, solutionSteps)
+	}
 }
 
 func runSolver(sud lib.Sudoku) ([]lib.Sudoku, error) {
@@ -34,8 +38,11 @@ func runSolver(sud lib.Sudoku) ([]lib.Sudoku, error) {
 		&eliminatecells.EliminateCellsLogic{Sudoku: &sud},
 	}
 
-	lib.RunStep(logics)
-	solutionSteps := append(make([]lib.Sudoku, 0), sud)
-
-	return solutionSteps, nil
+	if isSuccessful, err := lib.RunStep(logics); err != nil {
+		return nil, err
+	} else if !isSuccessful {
+		return nil, errors.New("sudoku too hard")
+	} else {
+		return append(make([]lib.Sudoku, 0), sud), nil
+	}
 }
