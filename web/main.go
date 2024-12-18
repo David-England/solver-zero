@@ -18,14 +18,16 @@ func main() {
 }
 
 func solveSudoku(c *gin.Context) {
-	sud := lib.Sudoku{}
+	grid := [9][9]int{}
 
-	if err := c.BindJSON(&sud); err != nil {
+	if err := c.BindJSON(&grid); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
-	if solutionSteps, err := runSolver(sud); err != nil {
+	solutionSteps, err := runSolver(lib.Sudoku{Grid: grid})
+
+	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	} else {
 		c.IndentedJSON(http.StatusOK, solutionSteps)
