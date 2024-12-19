@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"solver-zero/lib"
 	"solver-zero/lib/logics/eliminatecells"
@@ -20,6 +21,11 @@ func solveSudoku(c *gin.Context) {
 	grid := [9][9]int{}
 
 	if err := c.BindJSON(&grid); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	if err := validateGrid(grid); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
@@ -50,4 +56,18 @@ func runSolver(sudokuGrid [9][9]int) (solutionSteps [][9][9]int, runError error)
 	}
 
 	return
+}
+
+func validateGrid(sudokuGrid [9][9]int) error {
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			val := sudokuGrid[i][j]
+
+			if val < 0 || val > 9 {
+				return fmt.Errorf("invalid entry: %v", val)
+			}
+		}
+	}
+
+	return nil
 }
