@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"net/http"
 	"solver-zero/lib"
 	"solver-zero/lib/logics/eliminatecells"
@@ -34,17 +33,22 @@ func solveSudoku(c *gin.Context) {
 	}
 }
 
-func runSolver(sud lib.Sudoku) ([]lib.Sudoku, error) {
+func runSolver(sud lib.Sudoku) (solutionSteps []lib.Sudoku, runError error) {
 	var logics []lib.ILogic = []lib.ILogic{
 		&obvsingles.ObviousSinglesLogic{Sudoku: &sud},
 		&eliminatecells.EliminateCellsLogic{Sudoku: &sud},
 	}
+	solutionSteps = make([]lib.Sudoku, 0)
 
-	if isSuccessful, err := lib.RunStep(logics); err != nil {
-		return nil, err
-	} else if !isSuccessful {
-		return nil, errors.New("sudoku too hard")
-	} else {
-		return append(make([]lib.Sudoku, 0), sud), nil
+	for isChanged := true; isChanged; {
+		isChanged, runError = lib.RunStep(logics)
+
+		if runError != nil {
+			return nil, runError
+		}
+
+		solutionSteps = append(solutionSteps, sud)
 	}
+
+	return
 }
