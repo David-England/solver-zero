@@ -45,9 +45,9 @@ func runSolver(sud lib.Sudoku) (solutionSteps []lib.Sudoku, runError error) {
 
 		if runError != nil {
 			return nil, runError
+		} else if isChanged {
+			solutionSteps = append(solutionSteps, sud)
 		}
-
-		solutionSteps = append(solutionSteps, sud)
 	}
 
 	return
