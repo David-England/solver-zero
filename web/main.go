@@ -24,21 +24,20 @@ func solveSudoku(c *gin.Context) {
 		return
 	}
 
-	solutionSteps, err := runSolver(lib.Sudoku{Grid: grid})
-
-	if err != nil {
+	if solutionSteps, err := runSolver(grid); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 	} else {
 		c.IndentedJSON(http.StatusOK, solutionSteps)
 	}
 }
 
-func runSolver(sud lib.Sudoku) (solutionSteps []lib.Sudoku, runError error) {
-	var logics []lib.ILogic = []lib.ILogic{
+func runSolver(sudokuGrid [9][9]int) (solutionSteps [][9][9]int, runError error) {
+	sud := lib.Sudoku{Grid: sudokuGrid}
+	logics := []lib.ILogic{
 		&obvsingles.ObviousSinglesLogic{Sudoku: &sud},
 		&eliminatecells.EliminateCellsLogic{Sudoku: &sud},
 	}
-	solutionSteps = make([]lib.Sudoku, 0)
+	solutionSteps = make([][9][9]int, 0)
 
 	for isChanged := true; isChanged; {
 		isChanged, runError = lib.RunStep(logics)
@@ -46,7 +45,7 @@ func runSolver(sud lib.Sudoku) (solutionSteps []lib.Sudoku, runError error) {
 		if runError != nil {
 			return nil, runError
 		} else if isChanged {
-			solutionSteps = append(solutionSteps, sud)
+			solutionSteps = append(solutionSteps, sud.Grid)
 		}
 	}
 
