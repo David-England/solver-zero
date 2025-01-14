@@ -1,7 +1,8 @@
 package lib
 
 type Sudoku struct {
-	Grid [9][9]int
+	Grid        [9][9]int
+	PencilMarks PencilMarks
 }
 
 type Sub struct {

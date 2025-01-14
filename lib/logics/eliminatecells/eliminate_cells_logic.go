@@ -2,7 +2,6 @@ package eliminatecells
 
 import (
 	"solver-zero/lib"
-	"solver-zero/lib/pencil"
 )
 
 type EliminateCellsLogic struct {
@@ -11,7 +10,7 @@ type EliminateCellsLogic struct {
 
 func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 	isSuccessful := false
-	pencilMarks := pencil.PencilMarks{}
+	pencilMarks := &logic.Sudoku.PencilMarks
 
 	pencilMarks.EliminateOptions(logic.Sudoku)
 

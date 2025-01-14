@@ -1,6 +1,4 @@
-package pencil
-
-import "solver-zero/lib"
+package lib
 
 type PencilMarks struct {
 	// Dimensions: row, column, number - 1.
@@ -19,24 +17,24 @@ func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) CandidateCellsInRow(row, num int) []lib.Coords {
-	couldBe := make([]lib.Coords, 0, 9)
+func (pencilMarks *PencilMarks) CandidateCellsInRow(row, num int) []Coords {
+	couldBe := make([]Coords, 0, 9)
 
 	for col := 0; col < 9; col++ {
 		if !pencilMarks.cantBe[row][col][num-1] {
-			couldBe = append(couldBe, lib.Coords{RowIndex: row, ColumnIndex: col})
+			couldBe = append(couldBe, Coords{RowIndex: row, ColumnIndex: col})
 		}
 	}
 
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []lib.Coords {
-	couldBe := make([]lib.Coords, 0, 9)
+func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []Coords {
+	couldBe := make([]Coords, 0, 9)
 
 	for row := 0; row < 9; row++ {
 		if !pencilMarks.cantBe[row][col][num-1] {
-			couldBe = append(couldBe, lib.Coords{RowIndex: row, ColumnIndex: col})
+			couldBe = append(couldBe, Coords{RowIndex: row, ColumnIndex: col})
 		}
 	}
 
@@ -44,13 +42,13 @@ func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []lib.Coord
 }
 
 func (pencilMarks *PencilMarks) CandidateCellsInSubgrid(
-	subgridRow, subgridCol, num int) []lib.Coords {
-	couldBe := make([]lib.Coords, 0, 9)
+	subgridRow, subgridCol, num int) []Coords {
+	couldBe := make([]Coords, 0, 9)
 
 	for i := 3 * subgridRow; i < 3*(subgridRow+1); i++ {
 		for j := 3 * subgridCol; j < 3*(subgridCol+1); j++ {
 			if !pencilMarks.cantBe[i][j][num-1] {
-				couldBe = append(couldBe, lib.Coords{RowIndex: i, ColumnIndex: j})
+				couldBe = append(couldBe, Coords{RowIndex: i, ColumnIndex: j})
 			}
 		}
 	}
@@ -58,7 +56,7 @@ func (pencilMarks *PencilMarks) CandidateCellsInSubgrid(
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) EliminateOptions(sudoku *lib.Sudoku) {
+func (pencilMarks *PencilMarks) EliminateOptions(sudoku *Sudoku) {
 	pencilMarks.cantBe = [9][9][9]bool{}
 
 	for i := 0; i < 9; i++ {

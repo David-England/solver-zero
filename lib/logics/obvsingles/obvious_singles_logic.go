@@ -3,7 +3,6 @@ package obvsingles
 import (
 	"fmt"
 	"solver-zero/lib"
-	"solver-zero/lib/pencil"
 )
 
 type ObviousSinglesLogic struct {
@@ -11,21 +10,21 @@ type ObviousSinglesLogic struct {
 }
 
 func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
-	pencilMarks := pencil.PencilMarks{}
+	pencilMarks := &logic.Sudoku.PencilMarks
 
 	pencilMarks.EliminateOptions(logic.Sudoku)
-	isChanged, err := setObviousSingles(&pencilMarks, logic.Sudoku)
+	isChanged, err := setObviousSingles(logic.Sudoku)
 
 	return isChanged, err
 }
 
-func setObviousSingles(pencilMarks *pencil.PencilMarks, sudoku *lib.Sudoku) (bool, error) {
+func setObviousSingles(sudoku *lib.Sudoku) (bool, error) {
 	isSuccessful := false
 
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if sudoku.Grid[i][j] == 0 {
-				couldBe := pencilMarks.CandidateNumbers(i, j)
+				couldBe := sudoku.PencilMarks.CandidateNumbers(i, j)
 
 				if len(couldBe) == 1 {
 					sudoku.Grid[i][j] = couldBe[0]

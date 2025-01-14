@@ -1,9 +1,8 @@
-package pencil
+package lib
 
 import (
 	"fmt"
 	"slices"
-	"solver-zero/lib"
 	"testing"
 )
 
@@ -11,7 +10,7 @@ func TestBanRow(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	num := 4
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -41,7 +40,7 @@ func TestBanColumn(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	num := 4
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -71,7 +70,7 @@ func TestBanSubgrid(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	num := 4
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -102,7 +101,7 @@ func TestBanAllNumbers(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	num := 4
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -153,7 +152,7 @@ func TestBanNothingForEmpty(t *testing.T) {
 func TestCandidateNumbers(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -181,7 +180,7 @@ func TestCandidatesInRow(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	row := 3
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -200,7 +199,7 @@ func TestCandidatesInRow(t *testing.T) {
 	candidates := sut.CandidateCellsInRow(row, 4)
 
 	// Assert
-	cell := lib.Coords{RowIndex: row, ColumnIndex: 3}
+	cell := Coords{RowIndex: row, ColumnIndex: 3}
 	assertContains(candidates, cell, fmt.Sprintf("%v should be candidate, but was not", cell), t)
 	assertLength(candidates, 1, "should be exactly 1 candidate cell in row with 8 solved cells", t)
 }
@@ -209,7 +208,7 @@ func TestCandidatesInColumn(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	col := 3
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 1, 0, 0, 0, 0, 0},
 			{0, 0, 0, 2, 0, 0, 0, 0, 0},
@@ -228,7 +227,7 @@ func TestCandidatesInColumn(t *testing.T) {
 	candidates := sut.CandidateCellsInColumn(col, 4)
 
 	// Assert
-	cell := lib.Coords{RowIndex: 3, ColumnIndex: col}
+	cell := Coords{RowIndex: 3, ColumnIndex: col}
 	assertContains(candidates, cell, fmt.Sprintf("%v should be candidate, but was not", cell), t)
 	assertLength(candidates, 1,
 		"should be exactly 1 candidate cell in column with 8 solved cells", t)
@@ -238,7 +237,7 @@ func TestCandidatesInSubgrid(t *testing.T) {
 	// Arrange
 	sut := PencilMarks{}
 	subRow, subCol := 2, 2
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -257,7 +256,7 @@ func TestCandidatesInSubgrid(t *testing.T) {
 	candidates := sut.CandidateCellsInSubgrid(subRow, subCol, 4)
 
 	// Assert
-	cell := lib.Coords{RowIndex: 7, ColumnIndex: 6}
+	cell := Coords{RowIndex: 7, ColumnIndex: 6}
 	assertContains(candidates, cell, fmt.Sprintf("%v should be candidate, but was not", cell), t)
 	assertLength(candidates, 1,
 		"should be exactly 1 candidate cell in subgrid with 8 solved cells", t)
@@ -293,7 +292,7 @@ func TestCandidatesInRowForEmpty(t *testing.T) {
 
 	// Assert
 	for i := 0; i < 9; i++ {
-		cell := lib.Coords{RowIndex: row, ColumnIndex: i}
+		cell := Coords{RowIndex: row, ColumnIndex: i}
 		assertContains(candidates, cell, fmt.Sprintf(
 			"every cell should be a candidate for an empty row, but %v was not", cell), t)
 	}
@@ -313,7 +312,7 @@ func TestCandidatesInColForEmpty(t *testing.T) {
 
 	// Assert
 	for i := 0; i < 9; i++ {
-		cell := lib.Coords{RowIndex: i, ColumnIndex: col}
+		cell := Coords{RowIndex: i, ColumnIndex: col}
 		assertContains(candidates, cell, fmt.Sprintf(
 			"every cell should be a candidate for an empty column, but %v was not", cell), t)
 	}
@@ -334,7 +333,7 @@ func TestCandidatesInSubForEmpty(t *testing.T) {
 	// Assert
 	for row := 3 * subRow; row < 3*(subRow+1); row++ {
 		for col := 3 * subCol; col < 3*(subCol+1); col++ {
-			cell := lib.Coords{RowIndex: row, ColumnIndex: col}
+			cell := Coords{RowIndex: row, ColumnIndex: col}
 			assertContains(candidates, cell, fmt.Sprintf(
 				"every cell should be a candidate for an empty subgrid, but %v was not", cell), t)
 		}
@@ -343,8 +342,8 @@ func TestCandidatesInSubForEmpty(t *testing.T) {
 		"should be 9 candidate cells for empty subgrid, but was %v", len(candidates)), t)
 }
 
-func getEmptySudoku() lib.Sudoku {
-	return lib.Sudoku{
+func getEmptySudoku() Sudoku {
+	return Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
