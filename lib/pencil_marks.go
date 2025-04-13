@@ -57,8 +57,6 @@ func (pencilMarks *pencilMarks) candidateCellsInSubgrid(
 }
 
 func (pencilMarks *pencilMarks) eliminateOptions(sudoku *Sudoku) {
-	pencilMarks.cantBe = [9][9][9]bool{}
-
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if sudoku.Grid[i][j] != 0 {
