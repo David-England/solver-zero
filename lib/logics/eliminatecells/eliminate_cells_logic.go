@@ -10,15 +10,14 @@ type EliminateCellsLogic struct {
 
 func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 	isSuccessful := false
-	pencilMarks := &logic.Sudoku.PencilMarks
 
-	pencilMarks.EliminateOptions(logic.Sudoku)
+	logic.Sudoku.EliminateOptions()
 
 	for i := 0; i < 9; i++ {
 		for num := 1; num <= 9; num++ {
-			rowCandidates := pencilMarks.CandidateCellsInRow(i, num)
-			colCandidates := pencilMarks.CandidateCellsInColumn(i, num)
-			subCandidates := pencilMarks.CandidateCellsInSubgrid(i/3, i%3, num)
+			rowCandidates := logic.Sudoku.CandidateCellsInRow(i, num)
+			colCandidates := logic.Sudoku.CandidateCellsInColumn(i, num)
+			subCandidates := logic.Sudoku.CandidateCellsInSubgrid(i/3, i%3, num)
 
 			isSuccessful = setIfOneCandidate(rowCandidates, num, logic.Sudoku) || isSuccessful
 			isSuccessful = setIfOneCandidate(colCandidates, num, logic.Sudoku) || isSuccessful

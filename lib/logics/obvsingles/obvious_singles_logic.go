@@ -10,9 +10,7 @@ type ObviousSinglesLogic struct {
 }
 
 func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
-	pencilMarks := &logic.Sudoku.PencilMarks
-
-	pencilMarks.EliminateOptions(logic.Sudoku)
+	logic.Sudoku.EliminateOptions()
 	isChanged, err := setObviousSingles(logic.Sudoku)
 
 	return isChanged, err
@@ -24,7 +22,7 @@ func setObviousSingles(sudoku *lib.Sudoku) (bool, error) {
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if sudoku.Grid[i][j] == 0 {
-				couldBe := sudoku.PencilMarks.CandidateNumbers(i, j)
+				couldBe := sudoku.CandidateNumbers(i, j)
 
 				if len(couldBe) == 1 {
 					sudoku.Grid[i][j] = couldBe[0]
