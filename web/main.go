@@ -38,10 +38,10 @@ func solveSudoku(c *gin.Context) {
 }
 
 func runSolver(sudokuGrid [9][9]int) (solutionSteps [][9][9]int, runError error) {
-	sud := lib.Sudoku{Grid: sudokuGrid}
+	sud := lib.CreateSudoku(sudokuGrid)
 	logics := []lib.ILogic{
-		&obvsingles.ObviousSinglesLogic{Sudoku: &sud},
-		&eliminatecells.EliminateCellsLogic{Sudoku: &sud},
+		&obvsingles.ObviousSinglesLogic{Sudoku: sud},
+		&eliminatecells.EliminateCellsLogic{Sudoku: sud},
 	}
 	solutionSteps = make([][9][9]int, 0)
 

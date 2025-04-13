@@ -10,34 +10,40 @@ import (
 )
 
 func importSudoku(filepath string) (lib.Sudoku, error) {
-	contents, err := os.ReadFile(filepath)
+	contents, readErr := os.ReadFile(filepath)
 
-	if err != nil {
-		return lib.Sudoku{}, err
+	if readErr != nil {
+		return lib.Sudoku{}, readErr
 	}
 
-	return parseCSV(string(contents))
+	grid, parseErr := parseCSV(string(contents))
+
+	if parseErr != nil {
+		return lib.Sudoku{}, parseErr
+	}
+
+	return *lib.CreateSudoku(grid), nil
 }
 
-func parseCSV(csv string) (lib.Sudoku, error) {
+func parseCSV(csv string) ([9][9]int, error) {
 	lines := strings.Split(csv, "\r\n")
-	var sudoku lib.Sudoku
+	grid := [9][9]int{}
 
 	if len(lines) < 9 {
-		return lib.Sudoku{}, errors.New("sudoku provided has fewer than 9 rows")
+		return [9][9]int{}, errors.New("sudoku provided has fewer than 9 rows")
 	}
 
 	for i := 0; i < 9; i++ {
 		var err error
 
-		sudoku.Grid[i], err = parseLine(lines[i])
+		grid[i], err = parseLine(lines[i])
 
 		if err != nil {
-			return lib.Sudoku{}, err
+			return [9][9]int{}, err
 		}
 	}
 
-	return sudoku, nil
+	return grid, nil
 }
 
 func parseLine(line string) ([9]int, error) {

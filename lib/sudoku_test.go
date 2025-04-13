@@ -1,13 +1,39 @@
-package lib_test
+package lib
 
 import (
-	"solver-zero/lib"
 	"testing"
 )
 
+func TestCreateSudoku(t *testing.T) {
+	// Arrange
+	num := 4
+	grid := [9][9]int{
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, num, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+	}
+
+	// Act
+	sudoku := CreateSudoku(grid)
+
+	// Assert
+	if sudoku.Grid[3][3] != num {
+		t.Fatalf("method CreateSudoku() failed to imbibe grid")
+	}
+	if !sudoku.pencilMarks.cantBe[3][4][num-1] {
+		t.Fatalf("method CreateSudoku() failed to eliminate option in row of resolved entry")
+	}
+}
+
 func TestGetSubs(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
+	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},

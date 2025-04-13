@@ -14,6 +14,12 @@ type Coords struct {
 	ColumnIndex int
 }
 
+func CreateSudoku(grid [9][9]int) (sudoku *Sudoku) {
+	sudoku = &Sudoku{Grid: grid}
+	sudoku.EliminateOptions()
+	return
+}
+
 func (suduko Sudoku) GetSubs() (subs [3][3]Sub) {
 	for subRow := 0; subRow < 3; subRow++ {
 		for subCol := 0; subCol < 3; subCol++ {

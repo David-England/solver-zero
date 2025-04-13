@@ -1,7 +1,6 @@
 package main
 
 import (
-	"solver-zero/lib"
 	"strings"
 	"testing"
 )
@@ -78,7 +77,7 @@ func TestParseBadInt(t *testing.T) {
 func TestCSV(t *testing.T) {
 	// Arrange
 	csv := createGoodCSV()
-	expected := createGoodSudoku()
+	expected := createGoodGrid()
 
 	// Act
 	actual, err := parseCSV(csv)
@@ -153,18 +152,16 @@ func createGoodCSV() string {
 		",,,,,,7,,\r\n,,,,,,,8,\r\n,,,,,,,,9"
 }
 
-func createGoodSudoku() lib.Sudoku {
-	return lib.Sudoku{
-		Grid: [9][9]int{
-			{1, 0, 0, 0, 0, 0, 0, 0, 0},
-			{0, 2, 0, 0, 0, 0, 0, 0, 0},
-			{0, 0, 3, 0, 0, 0, 0, 0, 0},
-			{0, 0, 0, 4, 0, 0, 0, 0, 0},
-			{0, 0, 0, 0, 5, 0, 0, 0, 0},
-			{0, 0, 0, 0, 0, 6, 0, 0, 0},
-			{0, 0, 0, 0, 0, 0, 7, 0, 0},
-			{0, 0, 0, 0, 0, 0, 0, 8, 0},
-			{0, 0, 0, 0, 0, 0, 0, 0, 9},
-		},
+func createGoodGrid() [9][9]int {
+	return [9][9]int{
+		{1, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 2, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 3, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 4, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 5, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 6, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 7, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 8, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 9},
 	}
 }
