@@ -2,7 +2,7 @@ package lib
 
 type Sudoku struct {
 	Grid        [9][9]int
-	PencilMarks PencilMarks
+	pencilMarks pencilMarks
 }
 
 type Sub struct {
@@ -30,21 +30,21 @@ func (suduko Sudoku) GetSubs() (subs [3][3]Sub) {
 }
 
 func (sudoku *Sudoku) CandidateNumbers(row, col int) []int {
-	return sudoku.PencilMarks.CandidateNumbers(row, col)
+	return sudoku.pencilMarks.candidateNumbers(row, col)
 }
 
 func (sudoku *Sudoku) CandidateCellsInRow(row, num int) []Coords {
-	return sudoku.PencilMarks.CandidateCellsInRow(row, num)
+	return sudoku.pencilMarks.candidateCellsInRow(row, num)
 }
 
 func (sudoku *Sudoku) CandidateCellsInColumn(col, num int) []Coords {
-	return sudoku.PencilMarks.CandidateCellsInColumn(col, num)
+	return sudoku.pencilMarks.candidateCellsInColumn(col, num)
 }
 
 func (sudoku *Sudoku) CandidateCellsInSubgrid(subgridRow, subgridCol, num int) []Coords {
-	return sudoku.PencilMarks.CandidateCellsInSubgrid(subgridRow, subgridCol, num)
+	return sudoku.pencilMarks.candidateCellsInSubgrid(subgridRow, subgridCol, num)
 }
 
 func (sudoku *Sudoku) EliminateOptions() {
-	sudoku.PencilMarks.EliminateOptions(sudoku)
+	sudoku.pencilMarks.eliminateOptions(sudoku)
 }

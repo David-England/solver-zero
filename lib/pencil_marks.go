@@ -1,11 +1,11 @@
 package lib
 
-type PencilMarks struct {
+type pencilMarks struct {
 	// Dimensions: row, column, number - 1.
 	cantBe [9][9][9]bool
 }
 
-func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
+func (pencilMarks *pencilMarks) candidateNumbers(row, col int) []int {
 	couldBe := make([]int, 0, 9)
 
 	for num := 1; num <= 9; num++ {
@@ -17,7 +17,7 @@ func (pencilMarks *PencilMarks) CandidateNumbers(row, col int) []int {
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) CandidateCellsInRow(row, num int) []Coords {
+func (pencilMarks *pencilMarks) candidateCellsInRow(row, num int) []Coords {
 	couldBe := make([]Coords, 0, 9)
 
 	for col := 0; col < 9; col++ {
@@ -29,7 +29,7 @@ func (pencilMarks *PencilMarks) CandidateCellsInRow(row, num int) []Coords {
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []Coords {
+func (pencilMarks *pencilMarks) candidateCellsInColumn(col, num int) []Coords {
 	couldBe := make([]Coords, 0, 9)
 
 	for row := 0; row < 9; row++ {
@@ -41,7 +41,7 @@ func (pencilMarks *PencilMarks) CandidateCellsInColumn(col, num int) []Coords {
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) CandidateCellsInSubgrid(
+func (pencilMarks *pencilMarks) candidateCellsInSubgrid(
 	subgridRow, subgridCol, num int) []Coords {
 	couldBe := make([]Coords, 0, 9)
 
@@ -56,7 +56,7 @@ func (pencilMarks *PencilMarks) CandidateCellsInSubgrid(
 	return couldBe
 }
 
-func (pencilMarks *PencilMarks) EliminateOptions(sudoku *Sudoku) {
+func (pencilMarks *pencilMarks) eliminateOptions(sudoku *Sudoku) {
 	pencilMarks.cantBe = [9][9][9]bool{}
 
 	for i := 0; i < 9; i++ {
@@ -71,19 +71,19 @@ func (pencilMarks *PencilMarks) EliminateOptions(sudoku *Sudoku) {
 	}
 }
 
-func (pencilMarks *PencilMarks) banRowForNumber(row int, num int) {
+func (pencilMarks *pencilMarks) banRowForNumber(row int, num int) {
 	for col := 0; col < 9; col++ {
 		pencilMarks.cantBe[row][col][num-1] = true
 	}
 }
 
-func (pencilMarks *PencilMarks) banColumnForNumber(col int, num int) {
+func (pencilMarks *pencilMarks) banColumnForNumber(col int, num int) {
 	for row := 0; row < 9; row++ {
 		pencilMarks.cantBe[row][col][num-1] = true
 	}
 }
 
-func (pencilMarks *PencilMarks) banSubgridForNumber(subgridRow int, subgridColumn int, num int) {
+func (pencilMarks *pencilMarks) banSubgridForNumber(subgridRow int, subgridColumn int, num int) {
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 3; j++ {
 			pencilMarks.cantBe[3*subgridRow+i][3*subgridColumn+j][num-1] = true
@@ -91,7 +91,7 @@ func (pencilMarks *PencilMarks) banSubgridForNumber(subgridRow int, subgridColum
 	}
 }
 
-func (pencilMarks *PencilMarks) banAllNumbersForCell(row, col int) {
+func (pencilMarks *pencilMarks) banAllNumbersForCell(row, col int) {
 	for num := 1; num <= 9; num++ {
 		pencilMarks.cantBe[row][col][num-1] = true
 	}

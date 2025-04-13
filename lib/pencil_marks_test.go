@@ -8,7 +8,7 @@ import (
 
 func TestBanRow(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	num := 4
 	sudoku := Sudoku{
 		Grid: [9][9]int{
@@ -25,7 +25,7 @@ func TestBanRow(t *testing.T) {
 	}
 
 	// Act
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Assert
 	row := 3
@@ -38,7 +38,7 @@ func TestBanRow(t *testing.T) {
 
 func TestBanColumn(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	num := 4
 	sudoku := Sudoku{
 		Grid: [9][9]int{
@@ -55,7 +55,7 @@ func TestBanColumn(t *testing.T) {
 	}
 
 	// Act
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Assert
 	col := 3
@@ -68,7 +68,7 @@ func TestBanColumn(t *testing.T) {
 
 func TestBanSubgrid(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	num := 4
 	sudoku := Sudoku{
 		Grid: [9][9]int{
@@ -85,7 +85,7 @@ func TestBanSubgrid(t *testing.T) {
 	}
 
 	// Act
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Assert
 	for row := 3; row < 6; row++ {
@@ -99,7 +99,7 @@ func TestBanSubgrid(t *testing.T) {
 
 func TestBanAllNumbers(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	num := 4
 	sudoku := Sudoku{
 		Grid: [9][9]int{
@@ -116,7 +116,7 @@ func TestBanAllNumbers(t *testing.T) {
 	}
 
 	// Act
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Assert
 	row, col := 3, 3
@@ -130,11 +130,11 @@ func TestBanAllNumbers(t *testing.T) {
 
 func TestBanNothingForEmpty(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	sudoku := getEmptySudoku()
 
 	// Act
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Assert
 	for i := 0; i < 9; i++ {
@@ -151,7 +151,7 @@ func TestBanNothingForEmpty(t *testing.T) {
 
 func TestCandidateNumbers(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	sudoku := Sudoku{
 		Grid: [9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -165,10 +165,10 @@ func TestCandidateNumbers(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Act
-	candidates := sut.CandidateNumbers(3, 3)
+	candidates := sut.candidateNumbers(3, 3)
 
 	// Assert
 	assertContains(candidates, 4, "4 should be candidate, but was not", t)
@@ -178,7 +178,7 @@ func TestCandidateNumbers(t *testing.T) {
 
 func TestCandidatesInRow(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	row := 3
 	sudoku := Sudoku{
 		Grid: [9][9]int{
@@ -193,10 +193,10 @@ func TestCandidatesInRow(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 	}
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Act
-	candidates := sut.CandidateCellsInRow(row, 4)
+	candidates := sut.candidateCellsInRow(row, 4)
 
 	// Assert
 	cell := Coords{RowIndex: row, ColumnIndex: 3}
@@ -206,7 +206,7 @@ func TestCandidatesInRow(t *testing.T) {
 
 func TestCandidatesInColumn(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	col := 3
 	sudoku := Sudoku{
 		Grid: [9][9]int{
@@ -221,10 +221,10 @@ func TestCandidatesInColumn(t *testing.T) {
 			{0, 0, 0, 9, 0, 0, 0, 0, 0},
 		},
 	}
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Act
-	candidates := sut.CandidateCellsInColumn(col, 4)
+	candidates := sut.candidateCellsInColumn(col, 4)
 
 	// Assert
 	cell := Coords{RowIndex: 3, ColumnIndex: col}
@@ -235,7 +235,7 @@ func TestCandidatesInColumn(t *testing.T) {
 
 func TestCandidatesInSubgrid(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	subRow, subCol := 2, 2
 	sudoku := Sudoku{
 		Grid: [9][9]int{
@@ -250,10 +250,10 @@ func TestCandidatesInSubgrid(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 7, 8, 9},
 		},
 	}
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Act
-	candidates := sut.CandidateCellsInSubgrid(subRow, subCol, 4)
+	candidates := sut.candidateCellsInSubgrid(subRow, subCol, 4)
 
 	// Assert
 	cell := Coords{RowIndex: 7, ColumnIndex: 6}
@@ -264,12 +264,12 @@ func TestCandidatesInSubgrid(t *testing.T) {
 
 func TestCandidateNumbersForEmpty(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	sudoku := getEmptySudoku()
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Act
-	candidates := sut.CandidateNumbers(0, 0)
+	candidates := sut.candidateNumbers(0, 0)
 
 	// Assert
 	for num := 1; num <= 9; num++ {
@@ -282,13 +282,13 @@ func TestCandidateNumbersForEmpty(t *testing.T) {
 
 func TestCandidatesInRowForEmpty(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	row := 0
 	sudoku := getEmptySudoku()
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Act
-	candidates := sut.CandidateCellsInRow(row, 4)
+	candidates := sut.candidateCellsInRow(row, 4)
 
 	// Assert
 	for i := 0; i < 9; i++ {
@@ -302,13 +302,13 @@ func TestCandidatesInRowForEmpty(t *testing.T) {
 
 func TestCandidatesInColForEmpty(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	col := 0
 	sudoku := getEmptySudoku()
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Act
-	candidates := sut.CandidateCellsInColumn(col, 4)
+	candidates := sut.candidateCellsInColumn(col, 4)
 
 	// Assert
 	for i := 0; i < 9; i++ {
@@ -322,13 +322,13 @@ func TestCandidatesInColForEmpty(t *testing.T) {
 
 func TestCandidatesInSubForEmpty(t *testing.T) {
 	// Arrange
-	sut := PencilMarks{}
+	sut := pencilMarks{}
 	subRow, subCol := 2, 2
 	sudoku := getEmptySudoku()
-	sut.EliminateOptions(&sudoku)
+	sut.eliminateOptions(&sudoku)
 
 	// Act
-	candidates := sut.CandidateCellsInSubgrid(subRow, subCol, 4)
+	candidates := sut.candidateCellsInSubgrid(subRow, subCol, 4)
 
 	// Assert
 	for row := 3 * subRow; row < 3*(subRow+1); row++ {
