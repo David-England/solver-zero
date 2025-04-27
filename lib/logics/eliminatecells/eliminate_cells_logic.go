@@ -23,8 +23,6 @@ func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 		}
 	}
 
-	logic.Sudoku.EliminateOptions()
-
 	return isSuccessful, nil
 }
 
@@ -32,6 +30,7 @@ func setIfOneCandidate(candidates []lib.Coords, num int, sud *lib.Sudoku) (isSuc
 	if len(candidates) == 1 {
 		cell := candidates[0]
 		sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
+		sud.EliminateOptionsForCell(cell.RowIndex, cell.ColumnIndex, num)
 		isSuccessful = true
 	}
 
