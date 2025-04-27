@@ -54,10 +54,3 @@ func (sudoku *Sudoku) CandidateCellsInSubgrid(subgridRow, subgridCol, num int) [
 func (sudoku *Sudoku) EliminateOptions() {
 	sudoku.pencilMarks.eliminateOptions(sudoku)
 }
-
-func (sudoku *Sudoku) EliminateOptionsForCell(row, col, num int) {
-	sudoku.pencilMarks.banAllNumbersForCell(row, col)
-	sudoku.pencilMarks.banRowForNumber(row, num)
-	sudoku.pencilMarks.banColumnForNumber(col, num)
-	sudoku.pencilMarks.banSubgridForNumber(row/3, col/3, num)
-}

@@ -15,22 +15,31 @@ func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if logic.Sudoku.Grid[i][j] == 0 {
-				couldBe := logic.Sudoku.CandidateNumbers(i, j)
+				isAttemptSuccessful, err := attemptCell(logic.Sudoku, i, j)
 
-				if len(couldBe) == 1 {
-					resolveCell(logic.Sudoku, i, j, couldBe[0])
-					isSuccessful = true
-				} else if len(couldBe) == 0 {
-					return isSuccessful, fmt.Errorf("no number works for cell (%v, %v)", i+1, j+1)
+				isSuccessful = isSuccessful || isAttemptSuccessful
+
+				if err != nil {
+					return isSuccessful, err
 				}
 			}
 		}
 	}
 
+	logic.Sudoku.EliminateOptions()
+
 	return isSuccessful, nil
 }
 
-func resolveCell(sudoku *lib.Sudoku, row, col, num int) {
-	sudoku.Grid[row][col] = num
-	sudoku.EliminateOptionsForCell(row, col, num)
+func attemptCell(sudoku *lib.Sudoku, row, col int) (bool, error) {
+	couldBe := sudoku.CandidateNumbers(row, col)
+
+	if len(couldBe) == 1 {
+		sudoku.Grid[row][col] = couldBe[0]
+		return true, nil
+	} else if len(couldBe) == 0 {
+		return false, fmt.Errorf("no number works for cell (%v, %v)", row+1, col+1)
+	} else {
+		return false, nil
+	}
 }
