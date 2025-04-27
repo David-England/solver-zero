@@ -10,8 +10,8 @@ type ObviousSinglesLogic struct {
 }
 
 func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
-	logic.Sudoku.EliminateOptions()
 	isChanged, err := setObviousSingles(logic.Sudoku)
+	logic.Sudoku.EliminateOptions()
 
 	return isChanged, err
 }

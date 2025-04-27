@@ -8,8 +8,8 @@ import (
 
 func TestResolveRow(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -19,9 +19,8 @@ func TestResolveRow(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := obvsingles.ObviousSinglesLogic{&sudoku}
+		})
+	logic := obvsingles.ObviousSinglesLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()
@@ -37,8 +36,8 @@ func TestResolveRow(t *testing.T) {
 
 func TestResolveColumn(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 1, 0, 0, 0, 0, 0},
 			{0, 0, 0, 2, 0, 0, 0, 0, 0},
 			{0, 0, 0, 3, 0, 0, 0, 0, 0},
@@ -48,9 +47,8 @@ func TestResolveColumn(t *testing.T) {
 			{0, 0, 0, 7, 0, 0, 0, 0, 0},
 			{0, 0, 0, 8, 0, 0, 0, 0, 0},
 			{0, 0, 0, 9, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := obvsingles.ObviousSinglesLogic{&sudoku}
+		})
+	logic := obvsingles.ObviousSinglesLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()
@@ -66,8 +64,8 @@ func TestResolveColumn(t *testing.T) {
 
 func TestResolveSubgrid(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -77,9 +75,8 @@ func TestResolveSubgrid(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := obvsingles.ObviousSinglesLogic{&sudoku}
+		})
+	logic := obvsingles.ObviousSinglesLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()
@@ -95,8 +92,8 @@ func TestResolveSubgrid(t *testing.T) {
 
 func TestResolveNothing(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -106,9 +103,8 @@ func TestResolveNothing(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := obvsingles.ObviousSinglesLogic{&sudoku}
+		})
+	logic := obvsingles.ObviousSinglesLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()

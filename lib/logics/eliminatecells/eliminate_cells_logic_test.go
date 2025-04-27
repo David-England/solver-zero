@@ -8,8 +8,8 @@ import (
 
 func TestPureElimination(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 4, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 4, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -19,9 +19,8 @@ func TestPureElimination(t *testing.T) {
 			{0, 4, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := eliminatecells.EliminateCellsLogic{&sudoku}
+		})
+	logic := eliminatecells.EliminateCellsLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()
@@ -37,8 +36,8 @@ func TestPureElimination(t *testing.T) {
 
 func TestResolveTrivialRow(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -48,9 +47,8 @@ func TestResolveTrivialRow(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := eliminatecells.EliminateCellsLogic{&sudoku}
+		})
+	logic := eliminatecells.EliminateCellsLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()
@@ -66,8 +64,8 @@ func TestResolveTrivialRow(t *testing.T) {
 
 func TestResolveTrivialColumn(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 1, 0, 0, 0, 0, 0},
 			{0, 0, 0, 2, 0, 0, 0, 0, 0},
 			{0, 0, 0, 3, 0, 0, 0, 0, 0},
@@ -77,9 +75,8 @@ func TestResolveTrivialColumn(t *testing.T) {
 			{0, 0, 0, 7, 0, 0, 0, 0, 0},
 			{0, 0, 0, 8, 0, 0, 0, 0, 0},
 			{0, 0, 0, 9, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := eliminatecells.EliminateCellsLogic{&sudoku}
+		})
+	logic := eliminatecells.EliminateCellsLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()
@@ -95,8 +92,8 @@ func TestResolveTrivialColumn(t *testing.T) {
 
 func TestResolveTrivialSubgrid(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -106,9 +103,8 @@ func TestResolveTrivialSubgrid(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := eliminatecells.EliminateCellsLogic{&sudoku}
+		})
+	logic := eliminatecells.EliminateCellsLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()
@@ -124,8 +120,8 @@ func TestResolveTrivialSubgrid(t *testing.T) {
 
 func TestResolveNothing(t *testing.T) {
 	// Arrange
-	sudoku := lib.Sudoku{
-		Grid: [9][9]int{
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -135,9 +131,8 @@ func TestResolveNothing(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		},
-	}
-	logic := eliminatecells.EliminateCellsLogic{&sudoku}
+		})
+	logic := eliminatecells.EliminateCellsLogic{sudoku}
 
 	// Act
 	isChanged, _ := logic.RunStep()

@@ -11,8 +11,6 @@ type EliminateCellsLogic struct {
 func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 	isSuccessful := false
 
-	logic.Sudoku.EliminateOptions()
-
 	for i := 0; i < 9; i++ {
 		for num := 1; num <= 9; num++ {
 			rowCandidates := logic.Sudoku.CandidateCellsInRow(i, num)
@@ -24,6 +22,8 @@ func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 			isSuccessful = setIfOneCandidate(subCandidates, num, logic.Sudoku) || isSuccessful
 		}
 	}
+
+	logic.Sudoku.EliminateOptions()
 
 	return isSuccessful, nil
 }
