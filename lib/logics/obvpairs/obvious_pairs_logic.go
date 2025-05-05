@@ -20,7 +20,7 @@ type pairInColumn struct {
 	cells  [2]lib.Coords
 }
 
-func (logic *ObviousPairsLogic) RunStep() (bool, error) {
+func (logic *ObviousPairsLogic) RunStep() (isSuccessful bool, err error) {
 	logic.pairsInRow = make([]pairInRow, 0)
 	logic.pairsInColumn = make([]pairInColumn, 0)
 
@@ -40,7 +40,7 @@ func (logic *ObviousPairsLogic) RunStep() (bool, error) {
 		banColumnExcept(pair.nums, rows, pair.column, logic.Sudoku)
 	}
 
-	return false, nil
+	return len(logic.pairsInRow) > 0 || len(logic.pairsInColumn) > 0, nil
 }
 
 func (logic *ObviousPairsLogic) resolveRow(row int) {

@@ -23,11 +23,14 @@ func TestObviousPairRow(t *testing.T) {
 	logic := obvpairs.ObviousPairsLogic{Sudoku: sudoku}
 
 	// Act
-	logic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if len(sudoku.CandidateCellsInRow(0, 1)) != 2 {
 		t.Fatalf("failed to perform obvious pair cancellation in row")
+	}
+	if !isChanged {
+		t.Fatalf("should have changed but claiming to have not")
 	}
 }
 
@@ -48,11 +51,14 @@ func TestObviousPairColumn(t *testing.T) {
 	logic := obvpairs.ObviousPairsLogic{Sudoku: sudoku}
 
 	// Act
-	logic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if len(sudoku.CandidateCellsInColumn(0, 1)) != 2 {
 		t.Fatalf("failed to perform obvious pair cancellation in column")
+	}
+	if !isChanged {
+		t.Fatalf("should have changed but claiming to have not")
 	}
 }
 
@@ -73,10 +79,38 @@ func TestObviousPairSubgrid(t *testing.T) {
 	logic := obvpairs.ObviousPairsLogic{Sudoku: sudoku}
 
 	// Act
-	logic.RunStep()
+	isChanged, _ := logic.RunStep()
 
 	// Assert
 	if len(sudoku.CandidateCellsInSubgrid(0, 1, 1)) != 2 {
 		t.Fatalf("failed to perform obvious pair cancellation in subgrid")
+	}
+	if !isChanged {
+		t.Fatalf("should have changed but claiming to have not")
+	}
+}
+
+func TestResolveNothing(t *testing.T) {
+	// Arrange
+	sudoku := lib.CreateSudoku(
+		[9][9]int{
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+			{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		})
+	logic := obvpairs.ObviousPairsLogic{Sudoku: sudoku}
+
+	// Act
+	isChanged, _ := logic.RunStep()
+
+	// Assert
+	if isChanged {
+		t.Fatalf("claiming to have changed when shouldn't have")
 	}
 }
