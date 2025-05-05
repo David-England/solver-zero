@@ -32,9 +32,7 @@ func (logic *ObviousPairsLogic) resolveRow(row int) {
 	cellsWith2 := make(map[int][2]int)
 
 	for col := 0; col < 9; col++ {
-		cand := logic.Sudoku.CandidateNumbers(row, col)
-
-		if len(cand) == 2 {
+		if cand := logic.Sudoku.CandidateNumbers(row, col); len(cand) == 2 {
 			candSortedArr := sort(([2]int)(cand))
 
 			for k, v := range cellsWith2 {
