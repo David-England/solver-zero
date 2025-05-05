@@ -20,7 +20,7 @@ func TestObviousPairRow(t *testing.T) {
 			{8, 0, 0, 0, 0, 0, 0, 0, 5},
 			{9, 0, 0, 0, 0, 0, 0, 0, 4},
 		})
-	logic := obvpairs.ObviousPairsLogic{sudoku}
+	logic := obvpairs.ObviousPairsLogic{Sudoku: sudoku}
 
 	// Act
 	logic.RunStep()
@@ -45,7 +45,7 @@ func TestObviousPairColumn(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 3, 9, 8, 7, 6, 5, 4},
 		})
-	logic := obvpairs.ObviousPairsLogic{sudoku}
+	logic := obvpairs.ObviousPairsLogic{Sudoku: sudoku}
 
 	// Act
 	logic.RunStep()
@@ -70,7 +70,7 @@ func TestObviousPairSubgrid(t *testing.T) {
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		})
-	logic := obvpairs.ObviousPairsLogic{sudoku}
+	logic := obvpairs.ObviousPairsLogic{Sudoku: sudoku}
 
 	// Act
 	logic.RunStep()

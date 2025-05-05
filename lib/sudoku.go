@@ -54,3 +54,7 @@ func (sudoku *Sudoku) CandidateCellsInSubgrid(subgridRow, subgridCol, num int) [
 func (sudoku *Sudoku) EliminateOptions() {
 	sudoku.pencilMarks.eliminateOptions(sudoku)
 }
+
+func (sudoku *Sudoku) Ban(num int, cell Coords) {
+	sudoku.pencilMarks.cantBe[cell.RowIndex][cell.ColumnIndex][num-1] = true
+}
