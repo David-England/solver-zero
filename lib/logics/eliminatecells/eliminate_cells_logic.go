@@ -17,9 +17,9 @@ func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 			colCandidates := logic.Sudoku.CandidateCellsInColumn(i, num)
 			subCandidates := logic.Sudoku.CandidateCellsInSubgrid(i/3, i%3, num)
 
-			isSuccessful = setIfOneCandidate(rowCandidates, num, logic.Sudoku) || isSuccessful
-			isSuccessful = setIfOneCandidate(colCandidates, num, logic.Sudoku) || isSuccessful
-			isSuccessful = setIfOneCandidate(subCandidates, num, logic.Sudoku) || isSuccessful
+			setIfOneCandidate(rowCandidates, num, logic.Sudoku, &isSuccessful)
+			setIfOneCandidate(colCandidates, num, logic.Sudoku, &isSuccessful)
+			setIfOneCandidate(subCandidates, num, logic.Sudoku, &isSuccessful)
 		}
 	}
 
@@ -28,12 +28,10 @@ func (logic *EliminateCellsLogic) RunStep() (bool, error) {
 	return isSuccessful, nil
 }
 
-func setIfOneCandidate(candidates []lib.Coords, num int, sud *lib.Sudoku) (isSuccessful bool) {
+func setIfOneCandidate(candidates []lib.Coords, num int, sud *lib.Sudoku, isSuccessful *bool) {
 	if len(candidates) == 1 {
 		cell := candidates[0]
 		sud.Grid[cell.RowIndex][cell.ColumnIndex] = num
-		isSuccessful = true
+		*isSuccessful = true
 	}
-
-	return
 }

@@ -15,9 +15,7 @@ func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if logic.Sudoku.Grid[i][j] == 0 {
-				isAttemptSuccessful, err := attemptCell(logic.Sudoku, i, j)
-
-				isSuccessful = isSuccessful || isAttemptSuccessful
+				err := attemptCell(logic.Sudoku, i, j, &isSuccessful)
 
 				if err != nil {
 					return isSuccessful, err
@@ -31,15 +29,16 @@ func (logic *ObviousSinglesLogic) RunStep() (bool, error) {
 	return isSuccessful, nil
 }
 
-func attemptCell(sudoku *lib.Sudoku, row, col int) (bool, error) {
+func attemptCell(sudoku *lib.Sudoku, row, col int, hasDoneSet *bool) error {
 	couldBe := sudoku.CandidateNumbers(row, col)
 
 	if len(couldBe) == 1 {
 		sudoku.Grid[row][col] = couldBe[0]
-		return true, nil
+		*hasDoneSet = true
+		return nil
 	} else if len(couldBe) == 0 {
-		return false, fmt.Errorf("no number works for cell (%v, %v)", row+1, col+1)
+		return fmt.Errorf("no number works for cell (%v, %v)", row+1, col+1)
 	} else {
-		return false, nil
+		return nil
 	}
 }
