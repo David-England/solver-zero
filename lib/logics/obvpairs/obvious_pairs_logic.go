@@ -1,6 +1,9 @@
 package obvpairs
 
-import "solver-zero/lib"
+import (
+	"slices"
+	"solver-zero/lib"
+)
 
 type ObviousPairsLogic struct {
 	Sudoku        *lib.Sudoku
@@ -20,7 +23,8 @@ type pairInColumn struct {
 	cells  [2]lib.Coords
 }
 
-func (logic *ObviousPairsLogic) RunStep() (isSuccessful bool, err error) {
+func (logic *ObviousPairsLogic) RunStep() (bool, error) {
+	isSuccessful := false
 	logic.pairsInRow = make([]pairInRow, 0)
 	logic.pairsInColumn = make([]pairInColumn, 0)
 
@@ -33,14 +37,14 @@ func (logic *ObviousPairsLogic) RunStep() (isSuccessful bool, err error) {
 
 	for _, pair := range logic.pairsInRow {
 		cols := [2]int{pair.cells[0].ColumnIndex, pair.cells[1].ColumnIndex}
-		banRowExcept(pair.nums, cols, pair.row, logic.Sudoku)
+		banRowExcept(pair.nums, cols, pair.row, logic.Sudoku, &isSuccessful)
 	}
 	for _, pair := range logic.pairsInColumn {
 		rows := [2]int{pair.cells[0].RowIndex, pair.cells[1].RowIndex}
-		banColumnExcept(pair.nums, rows, pair.column, logic.Sudoku)
+		banColumnExcept(pair.nums, rows, pair.column, logic.Sudoku, &isSuccessful)
 	}
 
-	return len(logic.pairsInRow) > 0 || len(logic.pairsInColumn) > 0, nil
+	return isSuccessful, nil
 }
 
 func (logic *ObviousPairsLogic) resolveRow(row int) {
@@ -101,21 +105,31 @@ func (logic *ObviousPairsLogic) resolveColumn(col int) {
 	}
 }
 
-func banRowExcept(numsToBan, exceptCols [2]int, row int, sudoku *lib.Sudoku) {
+func banRowExcept(numsToBan, exceptCols [2]int, row int, sudoku *lib.Sudoku, hasBanned *bool) {
 	for col := 0; col < 9; col++ {
 		if !(col == exceptCols[0] || col == exceptCols[1]) {
+			preExistCandidates := sudoku.CandidateNumbers(row, col)
+
 			for _, num := range numsToBan {
-				sudoku.Ban(num, lib.Coords{RowIndex: row, ColumnIndex: col})
+				if slices.Contains(preExistCandidates, num) {
+					sudoku.Ban(num, lib.Coords{RowIndex: row, ColumnIndex: col})
+					*hasBanned = true
+				}
 			}
 		}
 	}
 }
 
-func banColumnExcept(numsToBan, exceptRows [2]int, col int, sudoku *lib.Sudoku) {
+func banColumnExcept(numsToBan, exceptRows [2]int, col int, sudoku *lib.Sudoku, hasBanned *bool) {
 	for row := 0; row < 9; row++ {
 		if !(row == exceptRows[0] || row == exceptRows[1]) {
+			preExistCandidates := sudoku.CandidateNumbers(row, col)
+
 			for _, num := range numsToBan {
-				sudoku.Ban(num, lib.Coords{RowIndex: row, ColumnIndex: col})
+				if slices.Contains(preExistCandidates, num) {
+					sudoku.Ban(num, lib.Coords{RowIndex: row, ColumnIndex: col})
+					*hasBanned = true
+				}
 			}
 		}
 	}
