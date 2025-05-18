@@ -6,9 +6,10 @@ import (
 )
 
 type ObviousPairsLogic struct {
-	Sudoku        *lib.Sudoku
-	pairsInRow    []pairInRow
-	pairsInColumn []pairInColumn
+	Sudoku         *lib.Sudoku
+	pairsInRow     []pairInRow
+	pairsInColumn  []pairInColumn
+	pairsInSubgrid []pairInSubgrid
 }
 
 type pairInRow struct {
@@ -23,16 +24,27 @@ type pairInColumn struct {
 	cells  [2]lib.Coords
 }
 
+type pairInSubgrid struct {
+	nums          [2]int
+	subgridRow    int
+	subgridColumn int
+	cells         [2]lib.Coords
+}
+
 func (logic *ObviousPairsLogic) RunStep() (bool, error) {
 	isSuccessful := false
 	logic.pairsInRow = make([]pairInRow, 0)
 	logic.pairsInColumn = make([]pairInColumn, 0)
+	logic.pairsInSubgrid = make([]pairInSubgrid, 0)
 
 	for row := 0; row < 9; row++ {
 		logic.resolveRow(row)
 	}
 	for col := 0; col < 9; col++ {
 		logic.resolveColumn(col)
+	}
+	for subg := 0; subg < 9; subg++ {
+		logic.resolveSubgrid(subg/3, subg%3)
 	}
 
 	for _, pair := range logic.pairsInRow {
@@ -42,6 +54,10 @@ func (logic *ObviousPairsLogic) RunStep() (bool, error) {
 	for _, pair := range logic.pairsInColumn {
 		rows := [2]int{pair.cells[0].RowIndex, pair.cells[1].RowIndex}
 		banColumnExcept(pair.nums, rows, pair.column, logic.Sudoku, &isSuccessful)
+	}
+	for _, pair := range logic.pairsInSubgrid {
+		banSubgridExcept(pair.nums, pair.cells, pair.subgridRow, pair.subgridColumn, logic.Sudoku,
+			&isSuccessful)
 	}
 
 	return isSuccessful, nil
@@ -105,6 +121,39 @@ func (logic *ObviousPairsLogic) resolveColumn(col int) {
 	}
 }
 
+func (logic *ObviousPairsLogic) resolveSubgrid(subgridRow, subgridColumn int) {
+	cellsWith2 := make(map[int][2]int)
+
+	for i := 0; i < 9; i++ {
+		row := 3*subgridRow + i/3
+		col := 3*subgridColumn + i%3
+
+		if cand := logic.Sudoku.CandidateNumbers(row, col); len(cand) == 2 {
+			candSortedArr := sort(([2]int)(cand))
+
+			for k, v := range cellsWith2 {
+				if candSortedArr == v {
+
+					obviousPair := pairInSubgrid{
+						nums:          candSortedArr,
+						subgridRow:    subgridRow,
+						subgridColumn: subgridColumn,
+						cells: [2]lib.Coords{
+							{RowIndex: 3*subgridRow + k/3, ColumnIndex: 3*subgridColumn + k%3},
+							{RowIndex: row, ColumnIndex: col},
+						},
+					}
+
+					logic.pairsInSubgrid = append(logic.pairsInSubgrid, obviousPair)
+					break
+				}
+			}
+
+			cellsWith2[i] = candSortedArr
+		}
+	}
+}
+
 func banRowExcept(numsToBan, exceptCols [2]int, row int, sudoku *lib.Sudoku, hasBanned *bool) {
 	for col := 0; col < 9; col++ {
 		if !(col == exceptCols[0] || col == exceptCols[1]) {
@@ -129,6 +178,26 @@ func banColumnExcept(numsToBan, exceptRows [2]int, col int, sudoku *lib.Sudoku, 
 				if slices.Contains(preExistCandidates, num) {
 					sudoku.Ban(num, lib.Coords{RowIndex: row, ColumnIndex: col})
 					*hasBanned = true
+				}
+			}
+		}
+	}
+}
+
+func banSubgridExcept(numsToBan [2]int, exceptCells [2]lib.Coords, subgridRow, subgridColumn int,
+	sudoku *lib.Sudoku, hasBanned *bool) {
+	for row := 3 * subgridRow; row < 3*(subgridRow+1); row++ {
+		for col := 3 * subgridColumn; col < 3*(subgridColumn+1); col++ {
+			cell := lib.Coords{RowIndex: row, ColumnIndex: col}
+
+			if !(cell == exceptCells[0] || cell == exceptCells[1]) {
+				preExistCandidates := sudoku.CandidateNumbers(row, col)
+
+				for _, num := range numsToBan {
+					if slices.Contains(preExistCandidates, num) {
+						sudoku.Ban(num, cell)
+						*hasBanned = true
+					}
 				}
 			}
 		}
