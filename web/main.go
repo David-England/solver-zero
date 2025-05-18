@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"solver-zero/lib"
 	"solver-zero/lib/logics/eliminatecells"
+	"solver-zero/lib/logics/obvpairs"
 	"solver-zero/lib/logics/obvsingles"
 
 	"github.com/gin-gonic/gin"
@@ -42,6 +43,7 @@ func runSolver(sudokuGrid [9][9]int) (solutionSteps [][9][9]int, runError error)
 	logics := []lib.ILogic{
 		&obvsingles.ObviousSinglesLogic{Sudoku: sud},
 		&eliminatecells.EliminateCellsLogic{Sudoku: sud},
+		&obvpairs.ObviousPairsLogic{Sudoku: sud},
 	}
 	solutionSteps = make([][9][9]int, 0)
 

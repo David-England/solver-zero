@@ -6,6 +6,7 @@ import (
 	"os"
 	"solver-zero/lib"
 	"solver-zero/lib/logics/eliminatecells"
+	"solver-zero/lib/logics/obvpairs"
 	"solver-zero/lib/logics/obvsingles"
 )
 
@@ -19,6 +20,7 @@ func main() {
 	var logics []lib.ILogic = []lib.ILogic{
 		&obvsingles.ObviousSinglesLogic{Sudoku: &sud},
 		&eliminatecells.EliminateCellsLogic{Sudoku: &sud},
+		&obvpairs.ObviousPairsLogic{Sudoku: &sud},
 	}
 
 	printSudoku(sud)
