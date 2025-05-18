@@ -50,12 +50,24 @@ func runSolver(sudokuGrid [9][9]int) (solutionSteps [][9][9]int, runError error)
 
 		if runError != nil {
 			return nil, runError
-		} else if isChanged {
+		} else if isChanged && hasNewEntry(sud.Grid, solutionSteps) {
 			solutionSteps = append(solutionSteps, sud.Grid)
 		}
 	}
 
 	return
+}
+
+func hasNewEntry(latestGrid [9][9]int, existingSteps [][9][9]int) bool {
+	countSteps := len(existingSteps)
+
+	if countSteps < 1 {
+		return true
+	} else if latestGrid == existingSteps[countSteps-1] {
+		return false
+	} else {
+		return true
+	}
 }
 
 func validateGrid(sudokuGrid [9][9]int) error {
