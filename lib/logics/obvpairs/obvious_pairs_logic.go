@@ -37,33 +37,40 @@ func (logic *ObviousPairsLogic) RunStep() (bool, error) {
 	logic.pairsInColumn = make([]pairInColumn, 0)
 	logic.pairsInSubgrid = make([]pairInSubgrid, 0)
 
-	for row := 0; row < 9; row++ {
-		logic.resolveRow(row)
-	}
-	for col := 0; col < 9; col++ {
-		logic.resolveColumn(col)
-	}
-	for subg := 0; subg < 9; subg++ {
-		logic.resolveSubgrid(subg/3, subg%3)
-	}
-
-	for _, pair := range logic.pairsInRow {
-		cols := [2]int{pair.cells[0].ColumnIndex, pair.cells[1].ColumnIndex}
-		banRowExcept(pair.nums, cols, pair.row, logic.Sudoku, &isSuccessful)
-	}
-	for _, pair := range logic.pairsInColumn {
-		rows := [2]int{pair.cells[0].RowIndex, pair.cells[1].RowIndex}
-		banColumnExcept(pair.nums, rows, pair.column, logic.Sudoku, &isSuccessful)
-	}
-	for _, pair := range logic.pairsInSubgrid {
-		banSubgridExcept(pair.nums, pair.cells, pair.subgridRow, pair.subgridColumn, logic.Sudoku,
-			&isSuccessful)
-	}
+	logic.identifyPairs()
+	logic.banOutsidePairs(&isSuccessful)
 
 	return isSuccessful, nil
 }
 
-func (logic *ObviousPairsLogic) resolveRow(row int) {
+func (logic *ObviousPairsLogic) identifyPairs() {
+	for row := 0; row < 9; row++ {
+		logic.findPairsRow(row)
+	}
+	for col := 0; col < 9; col++ {
+		logic.findPairsColumn(col)
+	}
+	for subg := 0; subg < 9; subg++ {
+		logic.findPairsSubgrid(subg/3, subg%3)
+	}
+}
+
+func (logic *ObviousPairsLogic) banOutsidePairs(hasBanned *bool) {
+	for _, pair := range logic.pairsInRow {
+		cols := [2]int{pair.cells[0].ColumnIndex, pair.cells[1].ColumnIndex}
+		banRowExcept(pair.nums, cols, pair.row, logic.Sudoku, hasBanned)
+	}
+	for _, pair := range logic.pairsInColumn {
+		rows := [2]int{pair.cells[0].RowIndex, pair.cells[1].RowIndex}
+		banColumnExcept(pair.nums, rows, pair.column, logic.Sudoku, hasBanned)
+	}
+	for _, pair := range logic.pairsInSubgrid {
+		banSubgridExcept(pair.nums, pair.cells, pair.subgridRow, pair.subgridColumn, logic.Sudoku,
+			hasBanned)
+	}
+}
+
+func (logic *ObviousPairsLogic) findPairsRow(row int) {
 	cellsWith2 := make(map[int][2]int)
 
 	for col := 0; col < 9; col++ {
@@ -92,7 +99,7 @@ func (logic *ObviousPairsLogic) resolveRow(row int) {
 	}
 }
 
-func (logic *ObviousPairsLogic) resolveColumn(col int) {
+func (logic *ObviousPairsLogic) findPairsColumn(col int) {
 	cellsWith2 := make(map[int][2]int)
 
 	for row := 0; row < 9; row++ {
@@ -121,7 +128,7 @@ func (logic *ObviousPairsLogic) resolveColumn(col int) {
 	}
 }
 
-func (logic *ObviousPairsLogic) resolveSubgrid(subgridRow, subgridColumn int) {
+func (logic *ObviousPairsLogic) findPairsSubgrid(subgridRow, subgridColumn int) {
 	cellsWith2 := make(map[int][2]int)
 
 	for i := 0; i < 9; i++ {
