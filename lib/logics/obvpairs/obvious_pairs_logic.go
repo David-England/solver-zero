@@ -164,14 +164,8 @@ func (logic *ObviousPairsLogic) findPairsSubgrid(subgridRow, subgridColumn int) 
 func banRowExcept(numsToBan, exceptCols [2]int, row int, sudoku *lib.Sudoku, hasBanned *bool) {
 	for col := 0; col < 9; col++ {
 		if !(col == exceptCols[0] || col == exceptCols[1]) {
-			preExistCandidates := sudoku.CandidateNumbers(row, col)
-
-			for _, num := range numsToBan {
-				if slices.Contains(preExistCandidates, num) {
-					sudoku.Ban(num, lib.Coords{RowIndex: row, ColumnIndex: col})
-					*hasBanned = true
-				}
-			}
+			cell := lib.Coords{RowIndex: row, ColumnIndex: col}
+			banNumsForCell(numsToBan, cell, sudoku, hasBanned)
 		}
 	}
 }
@@ -179,14 +173,8 @@ func banRowExcept(numsToBan, exceptCols [2]int, row int, sudoku *lib.Sudoku, has
 func banColumnExcept(numsToBan, exceptRows [2]int, col int, sudoku *lib.Sudoku, hasBanned *bool) {
 	for row := 0; row < 9; row++ {
 		if !(row == exceptRows[0] || row == exceptRows[1]) {
-			preExistCandidates := sudoku.CandidateNumbers(row, col)
-
-			for _, num := range numsToBan {
-				if slices.Contains(preExistCandidates, num) {
-					sudoku.Ban(num, lib.Coords{RowIndex: row, ColumnIndex: col})
-					*hasBanned = true
-				}
-			}
+			cell := lib.Coords{RowIndex: row, ColumnIndex: col}
+			banNumsForCell(numsToBan, cell, sudoku, hasBanned)
 		}
 	}
 }
@@ -198,15 +186,19 @@ func banSubgridExcept(numsToBan [2]int, exceptCells [2]lib.Coords, subgridRow, s
 			cell := lib.Coords{RowIndex: row, ColumnIndex: col}
 
 			if !(cell == exceptCells[0] || cell == exceptCells[1]) {
-				preExistCandidates := sudoku.CandidateNumbers(row, col)
-
-				for _, num := range numsToBan {
-					if slices.Contains(preExistCandidates, num) {
-						sudoku.Ban(num, cell)
-						*hasBanned = true
-					}
-				}
+				banNumsForCell(numsToBan, cell, sudoku, hasBanned)
 			}
+		}
+	}
+}
+
+func banNumsForCell(numsToBan [2]int, cell lib.Coords, sudoku *lib.Sudoku, hasBanned *bool) {
+	preExistCandidates := sudoku.CandidateNumbers(cell.RowIndex, cell.ColumnIndex)
+
+	for _, num := range numsToBan {
+		if slices.Contains(preExistCandidates, num) {
+			sudoku.Ban(num, cell)
+			*hasBanned = true
 		}
 	}
 }
