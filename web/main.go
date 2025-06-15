@@ -13,7 +13,7 @@ import (
 
 func main() {
 	router := gin.Default()
-	router.GET("/sudoku", solveSudoku)
+	router.POST("/sudoku", solveSudoku)
 
 	router.Run("localhost:8081")
 }
